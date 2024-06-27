@@ -1,3 +1,10 @@
-<h1>Welcome to your library project</h1>
-<p>Create your package using @sveltejs/package and preview/showcase your work with SvelteKit</p>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script>
+    import { Editor } from "$lib/index.svelte";
+
+</script>
+<div class="container my-5">
+    <h1 class="text-2xl font-bold mb-5">@pyrodata/editor</h1>
+    <div class="prose max-w-none">
+        <Editor buttons="heading|bold,italic,strikethrough|link,image" />
+    </div>
+</div>
