@@ -31,9 +31,20 @@ export type ButtonDropdownProps = {
     isActive?: boolean;
 }
 
+export type ButtonDialogProps = {
+    icon: typeof Icon;
+    title: string;
+    onclick: () => void;
+    children: Snippet;
+    isActive?: boolean;
+    open: boolean;
+}
+
 export type DropdownItemProps = {
     children: Snippet;
 }
+
+export const classNames = (...classNames: string[]) => classNames.join(' ');
 
 export {
     Editor,

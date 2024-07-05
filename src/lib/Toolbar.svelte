@@ -13,8 +13,10 @@
         Strikethrough,
     } from "lucide-svelte";
     import Button from "./Button.svelte";
-    import { DropdownItem, type EditorToolbarProps } from "./index.svelte.js";
+    import { classNames, DropdownItem, type EditorToolbarProps } from "./index.svelte.js";
     import ButtonDropdown from "./ButtonDropdown.svelte";
+    import ButtonDialog from "./ButtonDialog.svelte";
+    import Input from "./Input.svelte";
 
     const {
         buttons = "heading,bold,italic,strikethrough|link",
@@ -22,9 +24,18 @@
     }: EditorToolbarProps = $props();
 
     const groups = buttons.split("|").map((group) => group.split(","));
+    const url = $state({
+        active: false,
+        text: '',
+        link: ''
+    });
+
+    $effect(() => {
+        console.log(url.text)
+    })
 </script>
 
-<div class="flex py-2 px-3 items-center bg-white border-b-2 border-gray-300 sticky top-0 z-10">
+<div class="flex py-2 px-3 items-center bg-white border-b-1 border-gray-300 sticky top-0 z-10 rounded-ss-3xl rounded-se-3xl">
     {#each groups as group, i}
         <div class="flex items-center">
             {#each group as button}
@@ -114,34 +125,96 @@
                     />
                 {/if}
                 {#if button === "link"}
-                    <ButtonDropdown icon={Link} title="Insert link" isActive={editor.isActive('link')}>
-                        <DropdownItem>
-                            <div class="flex flex-col items-start py-3 px-4 gap-3">
-                                <div class="flex gap-3 min-w-[300px] items-center">
-                                    <input 
-                                        type="url" 
-                                        class="
-                                            p-1 px-5 border-2 min-w-[300px] border-gray-300 rounded-3xl *:outline-none
-                                          focus:border-black focus:ring-4 focus:ring-gray-300
-                                        "
-                                        value="https://pyrodata.com/chemicals/charcoal"
-                                    />
-                                    <button 
-                                        type="button"
-                                        class="p-1 px-6 text-white border-2 border-primary-500 bg-primary-500 rounded-3xl"
-                                    >insert</button>
-                                    <button 
-                                        type="button"
-                                        class="p-1 px-6 text-white border-2 border-primary-200 bg-primary-200 rounded-3xl"
-                                    >unlink</button>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <input type="checkbox" id="open-in-new-tab" />
-                                    <label for="open-in-new-tab">Open link in new tab</label>
-                                </div>
-                            </div>
-                        </DropdownItem>
-                    </ButtonDropdown>
+                    <ButtonDialog 
+                        icon={Link} 
+                        title="Insert link"
+                        isActive={editor.isActive('link')}
+                        bind:open={url.active}
+                        onclick={() => {
+                            if (editor.isActive('link')) {
+                                editor
+                                    .chain()
+                                    .focus()
+                                    .extendMarkRange('link')
+                                    .run();
+                            }
+
+                            const { view, state } = editor;
+                            const { from, to } = view.state.selection
+                            const { href } = editor.getAttributes('link');
+
+                            url.text = state.doc.textBetween(from, to, '');
+                            
+                            if (href) {
+                                url.link = href;
+                            }
+                        }}
+                    >
+                        <div class="mb-4">
+                            <Input
+                                bind:value={url.text}
+                                type="text"
+                                label="Text"
+                                placeholder="Enter text"
+                                required
+                            />
+                        </div>
+                        <div class="mb-4">
+                            <Input 
+                                bind:value={url.link}
+                                type="url"
+                                label="Link"
+                                placeholder="https://example.com"
+                                required
+                            />
+                        </div>
+                        <div class="mb-4 flex justify-stretch gap-2">
+                            <button 
+                                type="button"
+                                class={classNames(
+                                    'p-2 px-6 w-full',
+                                    'rounded-3xl', 
+                                    'bg-slate-200'
+                                )}
+                                onclick={() => {
+                                    editor.chain().focus().run();
+                                    
+                                    url.active = false;
+                                    url.link = '';
+                                    url.text = '';
+                                }}
+                            >Cancel</button>
+                            <button 
+                                type="button"
+                                class={classNames(
+                                    'p-2 px-6 w-full',
+                                    'text-white rounded-3xl', 
+                                    'bg-blue-500'
+                                )}
+                                onclick={() => {
+                                    editor.chain()
+                                        .insertContent(url.text, { updateSelection: true })
+                                        .focus()
+                                        .run();
+
+                                    editor
+                                        .chain()
+                                        .focus()
+                                        .setTextSelection({ from: editor.state.selection.$anchor.pos - url.text.length, to: editor.state.selection.$anchor.pos })
+                                        .extendMarkRange('link')
+                                        .setLink({ href: url.link })
+                                        .setTextSelection(editor.state.selection.to + 1)
+                                        .run();
+
+                                    //editor.chain().focus('end').run()
+
+                                    url.active = false;
+                                    url.link = '';
+                                    url.text = '';
+                                }}
+                            >Insert</button>
+                        </div>
+                    </ButtonDialog>
                 {/if}
                 {#if button === "image"}
                     <ButtonDropdown icon={ImagePlus} title="Insert image">

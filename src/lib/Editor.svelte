@@ -45,8 +45,8 @@
 <div
     bind:this={element}
     class="
-        overflow-clip border-2 border-gray-300 rounded-3xl *:outline-none
-        has-[.ProseMirror-focused]:border-black has-[.ProseMirror-focused]:ring-4 has-[.ProseMirror-focused]:ring-gray-300
+        border border-gray-100 rounded-3xl *:outline-none
+        has-[.ProseMirror-focused]:border-black
         [&>.ProseMirror]:px-4
     "
 >

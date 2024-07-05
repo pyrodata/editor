@@ -3,6 +3,10 @@
 
     let { children }: DropdownItemProps = $props();
 </script>
-<div class="flex items-start">
+<div class="
+        flex p-1 items-start
+        [&>button]:w-full [&>button]:rounded-xl
+    "
+>
     {@render children()}
 </div>
