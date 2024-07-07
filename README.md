@@ -1,58 +1,61 @@
-# create-svelte
+# vite-vanilla-ts-lib-starter
 
-Everything you need to build a Svelte library, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+The starter is built on top of Vite 5.x and prepared for writing libraries in TypeScript. It generates a hybrid package - both support for CommonJS and ESM modules.
 
-Read more about creating a library [in the docs](https://kit.svelte.dev/docs/packaging).
+## Features
 
-## Creating a project
+- Hybrid support - CommonJS and ESM modules
+- IIFE bundle for direct browser support without bundler
+- Typings bundle
+- ESLint - scripts linter
+- Stylelint - styles linter
+- Prettier - formatter
+- Vitest - test framework
+- Husky + lint-staged - pre-commit git hook set up for formatting
 
-If you're seeing this, you've probably already done this step. Congrats!
+## GitHub Template
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+This is a template repo. Click the green [Use this template](https://github.com/kbysiec/vite-vanilla-ts-lib-starter/generate) button to get started.
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+## Clone to local
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-Everything inside `src/lib` is part of your library, everything inside `src/routes` can be used as a showcase or preview app.
-
-## Building
-
-To build your library:
+If you prefer to do it manually with the cleaner git history
 
 ```bash
-npm run package
+git clone https://github.com/kbysiec/vite-vanilla-ts-lib-starter.git
+cd vite-vanilla-ts-lib-starter
+npm i
 ```
 
-To create a production version of your showcase app:
+## Checklist
 
-```bash
-npm run build
-```
+When you use this template, update the following:
 
-You can preview the production build with `npm run preview`.
+- Remove `.git` directory and run `git init` to clean up the history
+- Change the name in `package.json` - it will be the name of the IIFE bundle global variable and bundle files name (`.cjs`, `.mjs`, `.iife.js`, `d.ts`)
+- Change the author name in `LICENSE`
+- Clean up the `README` and `CHANGELOG` files
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+And, enjoy :)
 
-## Publishing
+## Usage
 
-Go into the `package.json` and give your package the desired name through the `"name"` option. Also consider adding a `"license"` field and point it to a `LICENSE` file which you can create from a template (one popular option is the [MIT license](https://opensource.org/license/mit/)).
+The starter contains the following scripts:
 
-To publish your library to [npm](https://www.npmjs.com):
+- `dev` - starts dev server
+- `build` - generates the following bundles: CommonJS (`.cjs`) ESM (`.mjs`) and IIFE (`.iife.js`). The name of bundle is automatically taken from `package.json` name property
+- `test` - starts vitest and runs all tests
+- `test:coverage` - starts vitest and run all tests with code coverage report
+- `lint:scripts` - lint `.ts` files with eslint
+- `lint:styles` - lint `.css` and `.scss` files with stylelint
+- `format:scripts` - format `.ts`, `.html` and `.json` files with prettier
+- `format:styles` - format `.cs` and `.scss` files with stylelint
+- `format` - format all with prettier and stylelint
+- `prepare` - script for setting up husky pre-commit hook
+- `uninstall-husky` - script for removing husky from repository
 
-```bash
-npm publish
-```
+## Acknowledgment
+
+If you found it useful somehow, I would be grateful if you could leave a star in the project's GitHub repository.
+
+Thank you.
