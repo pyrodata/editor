@@ -61,8 +61,11 @@
     "dependencies": {
         "@floating-ui/dom": "^1.6.7",
         "@tiptap/core": "^2.4.0",
+        "@tiptap/extension-heading": "^2.4.0",
+        "@tiptap/extension-link": "^2.4.0",
         "@tiptap/pm": "^2.4.0",
         "@tiptap/starter-kit": "^2.4.0",
+        "lit": "^3.1.4",
         "lit-html": "^3.1.4",
         "lucide": "^0.400.0"
     }

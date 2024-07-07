@@ -1,68 +1,96 @@
-import type { TemplateResult } from "lit-html";
-import { PdButton } from "./pd-button";
-import { html, render } from '@/lit';
-import { classNames } from "@/utils";
+import type { TemplateResult } from 'lit-html';
 import { autoUpdate, computePosition } from '@floating-ui/dom';
+import { html, render } from '@/lit';
+import { classNames } from '@/utils';
 
-export abstract class PdDropdown extends PdButton {
-    items?(): { icon: TemplateResult }[]
+export type MenuItem = {
+    title: string;
+    icon: TemplateResult;
+    action: (e: PointerEvent, dropdown: PdDropdown) => void;
+}
+
+export class PdDropdown extends HTMLElement {
+    reference?: HTMLElement;
 
     connectedCallback() {
-        super.connectedCallback()
-
-        /**
-         * Insert chevron down icon
-         */
-        this.insertAdjacentHTML('beforeend', `<i data-lucide="chevron-down"></i>`)
-        /**
-         * Render component HTML
-         */
-        this.render()
-
-        this.addEventListener('click', () => {
-            if (this.hasAttribute('open')) {
-                this.removeAttribute('open')
-            } else {
-                this.setAttribute('open', '')
-            }
-        })
+        this.setAttribute('class', classNames(
+            'hidden',
+            'absolute top-0 left-0 z-10',
+            'bg-white shadow-md shadow-gray-100',
+            'border border-gray-50',
+            'rounded-xl'
+        ))
     }
 
-    render() {
-        let id = `tt-${crypto.randomUUID()}`;
-        let items;
-
-        if (this.items) {
-            items = html`
-                <nav class="list-none flex flex-col">${this.items().map(item => html`<li class="p-2 rounded-lg hover:bg-gray-50">${item.icon}</li>`)}</nav>
-            `
-        }
-
-        const template = html`
-            <div
-                id=${id}
-                class=${classNames(
-                    'p-1',
-                    'hidden absolute rounded-xl',
-                    'min-w-[150px]',
-                    'border border-gray-50',
-                    'bg-white shadow-md shadow-gray-100',
-                    'peer-has-[&[open]]:bg-red-500'
+    /**
+     * Render as a dropdown menu
+     * 
+     * @param items     - Dropdown menu items
+     */
+    renderMenu(items: MenuItem[]) {
+        const tpl = html`
+            <nav class="list-none flex flex-col">
+                ${items.map(item => 
+                    html`
+                        <li>
+                            <button class="p-2 w-full rounded-lg hover:bg-gray-50" @click=${(e: PointerEvent) => item.action(e, this)}>
+                                ${item.icon}
+                            </button>
+                        </li>
+                    `
                 )}
-            >
-                ${items}
-            </div>
+            </nav>
         `
 
-        render(template, this)
+        this.classList.add('p-1')
+        this.classList.add('min-w-[150px]')
 
-        const floatingEl = this.querySelector(`#${id}`) as HTMLElement;
+        render(tpl, this)
+    }
 
-        computePosition(this, floatingEl, { placement: 'bottom-start' }).then(({ x, y }) => {
-            Object.assign(floatingEl.style, {
-                left: `${x}px`,
-                top: `${y + 10}px`,
-            });
-        });
+    renderHTML(html: TemplateResult) {
+        render(html, this)
+    }
+
+    async show(reference: HTMLElement) {
+        const { x, y } = await computePosition(reference, this, { placement: 'bottom-start' })
+        
+        this.classList.remove('hidden')
+        this.classList.add('block')
+        
+        this.style.top = `${y}px`
+        this.style.left = `${x}px`
+
+        this.reference = reference;
+
+        document.addEventListener('click', this.onClickOutside.bind(this))
+    }
+
+    hide() {
+        this.classList.remove('block')
+        this.classList.add('hidden')
+
+        document.removeEventListener('click', this.onClickOutside.bind(this))
+    }
+
+    toggle(reference: HTMLElement) {
+        if (!this.checkVisibility()) {
+            this.show(reference)
+        } else {
+            this.hide()
+        }
+    }
+
+    onClickOutside(e: MouseEvent) {
+        if (
+            this.contains((e.target as HTMLElement)) 
+            || this.reference?.contains((e.target as HTMLElement))
+        ) {
+            return
+        }
+
+        this.hide()
     }
 }
+
+customElements.define('pd-dropdown', PdDropdown);

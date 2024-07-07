@@ -1,16 +1,29 @@
 import type { Editor } from "@tiptap/core";
-import { PyrodataButtonHeading } from "./buttons/button-heading";
+import type { PdModal } from "./pd-modal";
+import type { PdDropdown } from "./pd-dropdown";
+
+import { PdButtonHeading } from "./buttons/button-heading";
 import { PyrodataButtonGroup } from "./buttons/group";
 import { classNames } from "@/utils";
-import { PyrodataButtonBold } from "./buttons/button-bold";
+import { PdButtonBold } from "./buttons/button-bold";
+import { PdButtonItalic } from "./buttons/button-italic";
+import { PdButtonStrike } from "./buttons/button-strikethrough";
+import { PdButtonLink } from "./buttons/button-link";
 
 export class PyrodataEditorToolbar extends HTMLElement {    
     supportedButtons = {
-        'heading': PyrodataButtonHeading,
-        'bold': PyrodataButtonBold
+        'heading': PdButtonHeading,
+        'bold': PdButtonBold,
+        'italic': PdButtonItalic,
+        'strikethrough': PdButtonStrike,
+        'link': PdButtonLink
     }
 
-    constructor(protected editor: Editor) {
+    constructor(
+        protected editor: Editor,
+        protected dropdown: PdDropdown,
+        protected modal: PdModal,
+    ) {
         super();
 
         this.setAttribute('class', classNames(
@@ -26,7 +39,7 @@ export class PyrodataEditorToolbar extends HTMLElement {
 
             for(const button of buttons) {
                 if (this.supportedButtons[button as keyof typeof this.supportedButtons]) {
-                    group.appendChild(new this.supportedButtons[button as keyof typeof this.supportedButtons](this.editor))
+                    group.appendChild(new this.supportedButtons[button as keyof typeof this.supportedButtons](this.editor, this.dropdown, this.modal))
                 }
             }
 

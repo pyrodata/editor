@@ -1,7 +1,10 @@
 import { classNames } from "@/utils";
-import { Editor } from "@tiptap/core";
+import { Editor, type EditorOptions } from "@tiptap/core";
 import StarterKit from "@tiptap/starter-kit";
 import { PyrodataEditorToolbar } from "./pd-editor-toolbar";
+import { PdDropdown } from "./pd-dropdown";
+import { PdModal } from "./pd-modal";
+import Link from "@tiptap/extension-link";
 
 export class PyrodataEditor extends HTMLElement {
     static observedAttributes = ['toolbar'];
@@ -14,10 +17,13 @@ export class PyrodataEditor extends HTMLElement {
         const config = {
             element: this,
             extensions: [
-                StarterKit
+                StarterKit,
+                Link.configure({
+                    openOnClick: false
+                })
             ],
-            content: '<p>Hello World!</p>',
-        }
+            content: '<p>Hello World!</p>' 
+        } satisfies Partial<EditorOptions>
 
         /**
          * Initialize TipTap editor
@@ -31,12 +37,15 @@ export class PyrodataEditor extends HTMLElement {
         ));
     }
 
-    attributeChangedCallback(name: string, oldValue: string, newValue: string) {
-        if (name === 'toolbar') {
-            this.prepend(new PyrodataEditorToolbar(this.editor));
-        }
+    connectedCallback() {
+        const dropdown = document.querySelector('pd-dropdown') as PdDropdown ?? document.body.appendChild(new PdDropdown) as PdDropdown
+        const modal = document.querySelector('pd-modal') as PdModal ?? document.body.appendChild(new PdModal) as PdModal
+
+        /**
+         * Append the toolbar to the editor
+         */
+        this.prepend(new PyrodataEditorToolbar(this.editor, dropdown, modal))
     }
-    // Element functionality written in here
 }
 
 customElements.define('pd-editor', PyrodataEditor);
