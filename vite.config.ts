@@ -17,20 +17,19 @@ const getPackageNameCamelCase = () => {
 
 const fileName = {
     es: `${getPackageName()}.mjs`,
-    cjs: `${getPackageName()}.cjs`,
     iife: `${getPackageName()}.iife.js`,
 };
 
 const formats = Object.keys(fileName) as Array<keyof typeof fileName>;
 
-module.exports = defineConfig({
+export default defineConfig({
     base: "./",
     build: {
         outDir: "./build/dist",
         lib: {
             entry: path.resolve(__dirname, "src/index.ts"),
             name: getPackageNameCamelCase(),
-            formats,
+            formats: ['es', 'iife'],
             fileName: format => fileName[format],
         },
         rollupOptions: {

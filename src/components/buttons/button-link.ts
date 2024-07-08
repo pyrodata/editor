@@ -144,7 +144,7 @@ export class PdButtonLink extends PdButton {
             return this.dropdown.hide()
         }
 
-        if (reference?.closest('a')?.tagName !== 'A') {
+        if (reference.closest('a')?.tagName !== 'A') {
             return this.dropdown.hide()
         }
         

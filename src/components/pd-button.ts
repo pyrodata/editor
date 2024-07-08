@@ -6,11 +6,20 @@ import { pdConfig } from "..";
 
 export interface PdButton {
     /**
+     * Button icon https://lucide.dev/icons/
+     */
+    getIcon(): string;
+    /**
      * Button type, `button`, `dropdown` or `modal`
      *
      * Default `button`
      */
     getType(): 'dropdown' | 'modal' | 'button';
+    /**
+     * A function that runs each time the editor emits 
+     * a transaction to check whether the button should be active
+     */
+    isActive(): boolean;
     /**
      * A `lit html` to render inside a `modal` or `dropdown`
      */
@@ -23,18 +32,7 @@ export interface PdButton {
     onClick(): void;
 }
 
-export abstract class PdButton extends HTMLElement {
-    /**
-     * Button icon https://lucide.dev/icons/
-     */
-    public abstract getIcon(): string;
-
-    /**
-     * A function that runs each time the editor emits 
-     * a transaction to check whether the button should be active
-     */
-    public abstract isActive(): boolean;
-
+export class PdButton extends HTMLElement implements PdButton {
     /**
      * Button type, `button`, `dropdown` or `modal`
      *
@@ -56,6 +54,9 @@ export abstract class PdButton extends HTMLElement {
     }
 
     constructor(
+        /**
+         * Reference to TipTap editor
+         */
         protected editor: Editor,
         /**
          * Reference to dropdown element
@@ -69,6 +70,7 @@ export abstract class PdButton extends HTMLElement {
 
     connectedCallback() {
         this.setAttribute('class', pdConfig.button.style)
+        this.setAttribute('title', this.getTitle())
 
         this.insertAdjacentHTML('beforeend', this.getIcon())
         this.editor.on('transaction', () => this.toggleActive())
@@ -82,19 +84,10 @@ export abstract class PdButton extends HTMLElement {
              * Insert chevron down icon to distinguish from a normal button
              */
             this.insertAdjacentHTML('beforeend', `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>`)
-            /**
-             * Set dropdown specific props
-             */
-            this.addEventListener('click', () =>this.dropdown.toggle(this))
-            /**
-             * Hide dropdown on pressing escape
-             * or when clicking outside the dropdown
-             */
-            document.addEventListener('keyup', (e) => e.code === 'Escape' && this.dropdown.hide())
         }
 
-        if (this.getType() === 'modal') {
-            this.addEventListener('click', () => this.modal.show(this))
+        if (this.getType() === 'modal' || this.getType() === 'dropdown') {
+            this.addEventListener('click', () => this[this.getType() as 'modal' | 'dropdown'].toggle(this))
         }
     }
 

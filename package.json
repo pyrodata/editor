@@ -2,16 +2,14 @@
     "name": "@pyrodata/editor",
     "private": true,
     "version": "0.0.1",
-    "main": "./dist/vite-vanilla-ts-lib-starter.cjs",
-    "module": "./dist/vite-vanilla-ts-lib-starter.mjs",
+    "main": "./dist/vite-vanilla-ts-lib-starter.mjs",
+    "type": "module",
     "exports": {
         ".": {
-            "require": "./dist/vite-vanilla-ts-lib-starter.cjs",
             "import": "./dist/vite-vanilla-ts-lib-starter.mjs"
         },
         "./dist/": {
-            "import": "./dist/",
-            "require": "./dist/"
+            "import": "./dist/"
         }
     },
     "types": "./dist/index.d.ts",
@@ -63,6 +61,10 @@
         "@tiptap/core": "^2.4.0",
         "@tiptap/extension-heading": "^2.4.0",
         "@tiptap/extension-link": "^2.4.0",
+        "@tiptap/extension-table": "^2.4.0",
+        "@tiptap/extension-table-cell": "^2.4.0",
+        "@tiptap/extension-table-header": "^2.4.0",
+        "@tiptap/extension-table-row": "^2.4.0",
         "@tiptap/pm": "^2.4.0",
         "@tiptap/starter-kit": "^2.4.0",
         "lit": "^3.1.4",

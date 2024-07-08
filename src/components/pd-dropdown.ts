@@ -1,8 +1,8 @@
 import type { TemplateResult } from 'lit-html';
 import { computePosition } from '@floating-ui/dom';
 import { html, render } from '@/lit';
-import { classNames } from '@/utils';
 import { PdButton } from './pd-button';
+import { pdConfig } from '@/config';
 
 export type MenuItem = {
     title: string;
@@ -14,13 +14,11 @@ export class PdDropdown extends HTMLElement {
     reference?: HTMLElement | PdButton;
 
     connectedCallback() {
-        this.setAttribute('class', classNames(
-            'hidden',
-            'absolute top-0 left-0 z-10',
-            'bg-white shadow-md shadow-gray-100',
-            'border border-gray-50',
-            'rounded-xl'
-        ))
+        this.setAttribute('class', pdConfig.dropdown.style)
+        /**
+         * Hide dropdown on pressing escape
+         */
+        document.addEventListener('keyup', (e) => e.code === 'Escape' && this.hide())
     }
 
     renderHTML(html: TemplateResult) {
@@ -38,7 +36,7 @@ export class PdDropdown extends HTMLElement {
         this.style.left = `${x}px`
 
         this.render()
-
+        
         document.addEventListener('click', this.onClickOutside.bind(this))
     }
 
@@ -69,11 +67,11 @@ export class PdDropdown extends HTMLElement {
     }
 
     render() {
-        if (
-            (this.reference instanceof PdButton)
-            && Array.isArray(this.reference.getTemplate())
-        ) {
-            
+        if(!(this.reference instanceof PdButton)) {
+            return
+        }
+
+        if (Array.isArray(this.reference.getTemplate())) {
             const template = html`
                 <nav class="list-none flex flex-col">
                     ${(this.reference.getTemplate() as MenuItem[]).map(item => 
@@ -91,8 +89,10 @@ export class PdDropdown extends HTMLElement {
             this.classList.add('p-1')
             this.classList.add('min-w-[150px]')
 
-            render(template, this)
+            return render(template, this)
         }
+
+        return render(this.reference.getTemplate(), this)
     }
 }
 

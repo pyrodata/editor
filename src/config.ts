@@ -2,11 +2,18 @@ import StarterKit from "@tiptap/starter-kit";
 import { classNames } from "./utils";
 import Link from "@tiptap/extension-link";
 import type { EditorOptions } from "@tiptap/core";
+import Table from "@tiptap/extension-table";
+import TableHeader from "@tiptap/extension-table-header";
+import TableRow from "@tiptap/extension-table-row";
+import TableCell from "@tiptap/extension-table-cell";
 
 export type PdConfig = {
     editor: {
         style: string;
         config: Partial<EditorOptions>;
+    },
+    toolbar: {
+        style: string;
     },
     button: {
         style: string;
@@ -18,6 +25,9 @@ export type PdConfig = {
         dialog: {
             style: string;
         }
+    },
+    dropdown: {
+        style: string;
     }
 }
 
@@ -34,10 +44,24 @@ export const pdConfig: PdConfig = {
                 StarterKit,
                 Link.configure({
                     openOnClick: false
-                })
+                }),
+                Table,
+                TableHeader,
+                TableRow,
+                TableCell
             ],
-            content: '<p>Hello World!</p>' 
+            content: `
+                <p>Hello World!</p>
+            ` 
         }
+    },
+    toolbar: {
+        style: classNames(
+            'sticky top-0 z-10 py-2 px-3',
+            'flex items-center',
+            'rounded-ss-3xl rounded-se-3xl',
+            'bg-white'
+        )
     },
     button: {
         style: classNames(
@@ -64,8 +88,17 @@ export const pdConfig: PdConfig = {
                 'bg-white',
                 'min-w-[350px]',
                 'rounded-xl',
-                'shadow-sm'
+                'shadow-md'
             )
         }
+    },
+    dropdown: {
+        style: classNames(
+            'hidden',
+            'absolute top-0 left-0 z-10',
+            'bg-white shadow-md shadow-gray-100',
+            'border border-gray-50',
+            'rounded-xl'
+        )
     }
 }

@@ -8,9 +8,17 @@
   </head>
   <body>
     <div id="app">
-        <div class="prose max-w-[800px] mx-auto my-12">
+        <div class="
+            prose max-w-[800px] mx-auto my-12 
+            
+            prose-table:table-fixed
+            prose-table:border prose-th:border prose-td:border
+            prose-table:border-gray-100 prose-td:border-gray-100 prose-th:border-gray-100
+            prose-td:py-2 prose-td:px-4 prose-th:py-2 prose-th:px-4 prose-th:text-left
+            [&_table_p]:m-0
+        ">
             <pd-editor
-                toolbar="heading|bold,italic,strikethrough|link,image"
+                toolbar="heading|bold,italic,strikethrough|link,image|bullet-list,ordered-list|table"
             ></pd-editor>
         </div>
     </div>
