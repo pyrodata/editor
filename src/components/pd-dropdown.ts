@@ -1,5 +1,5 @@
 import type { TemplateResult } from 'lit-html';
-import { autoUpdate, computePosition } from '@floating-ui/dom';
+import { computePosition } from '@floating-ui/dom';
 import { html, render } from '@/lit';
 import { classNames } from '@/utils';
 

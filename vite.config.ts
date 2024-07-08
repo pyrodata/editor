@@ -33,6 +33,11 @@ module.exports = defineConfig({
             formats,
             fileName: format => fileName[format],
         },
+        rollupOptions: {
+            output: {
+                extend: true
+            }
+        }
     },
     test: {},
     resolve: {

@@ -1,8 +1,8 @@
-import { classNames } from "@/utils";
 import { Editor } from "@tiptap/core";
 import type { MenuItem, PdDropdown } from "./pd-dropdown";
-import { TemplateResult, render } from "lit-html";
+import { TemplateResult } from "lit-html";
 import { PdModal } from "./pd-modal";
+import { pdConfig } from "..";
 
 export interface PdButton {
     /**
@@ -10,27 +10,25 @@ export interface PdButton {
      *
      * Default `button`
      */
-    type(): 'dropdown' | 'modal' | 'button';
+    getType(): 'dropdown' | 'modal' | 'button';
     dropdownTemplate?(): MenuItem[] | TemplateResult;
     /**
      * A `lit html` to render inside a `modal` or `dropdown`
      */
-    template?(): TemplateResult | MenuItem[];
+    getTemplate(): TemplateResult | MenuItem[];
     /**
      * A callback function that runs when clicking the button
      * 
      * `modal` and `dropdown` dont have a `onClick` callback
      */
-    onClick?(): void;
+    onClick(): void;
 }
 
 export abstract class PdButton extends HTMLElement {
-    static observedAttributes = ['active', 'aria-expanded'];
-
     /**
      * Button icon https://lucide.dev/icons/
      */
-    public abstract icon(): string;
+    public abstract getIcon(): string;
 
     /**
      * A function that runs each time the editor emits 
@@ -43,7 +41,7 @@ export abstract class PdButton extends HTMLElement {
      *
      * Default `button`
      */
-    public type(): 'button' | 'dropdown' | 'modal' {
+    public getType(): 'button' | 'dropdown' | 'modal' {
         return 'button';
     }
 
@@ -71,26 +69,20 @@ export abstract class PdButton extends HTMLElement {
     ) { super() }
 
     connectedCallback() {
-        this.setAttribute('class', classNames(
-            'rounded-full p-2',
-            'flex justify-center items-center',
-            'hover:bg-gray-50',
-            'cursor-pointer',
-        ))
+        this.setAttribute('class', pdConfig.button.style)
 
-        this.insertAdjacentHTML('beforeend', this.icon())
+        this.insertAdjacentHTML('beforeend', this.getIcon())
         this.editor.on('transaction', () => this.toggleActive())
 
         if (this.onClick) {
             this.addEventListener('click', this.onClick)
         }
-
-
-        if (this.type() === 'dropdown') {
+        
+        if (this.getType() === 'dropdown') {
             /**
              * Insert chevron down icon to distinguish from a normal button
              */
-            this.insertAdjacentHTML('beforeend', `<i data-lucide="chevron-down"></i>`)
+            this.insertAdjacentHTML('beforeend', `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>`)
             /**
              * Set dropdown specific props
              */
@@ -109,8 +101,8 @@ export abstract class PdButton extends HTMLElement {
             document.addEventListener('keyup', (e) => e.code === 'Escape' && this.dropdown.hide())
         }
 
-        if (this.type() === 'modal') {
-            this.addEventListener('click', this.openModal.bind(this))
+        if (this.getType() === 'modal') {
+            this.addEventListener('click', () => this.modal.show(this))
         }
     }
 
@@ -128,10 +120,5 @@ export abstract class PdButton extends HTMLElement {
         }
 
         return this.setInactive()
-    }
-
-    openModal() {
-        this.modal.render(this.template!() as TemplateResult, this.getTitle())
-        this.modal.show()
     }
 }

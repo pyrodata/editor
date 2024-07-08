@@ -1,12 +1,10 @@
-import { classNames } from "@/utils";
-import { Editor, type EditorOptions } from "@tiptap/core";
-import StarterKit from "@tiptap/starter-kit";
+import { Editor } from "@tiptap/core";
 import { PyrodataEditorToolbar } from "./pd-editor-toolbar";
 import { PdDropdown } from "./pd-dropdown";
 import { PdModal } from "./pd-modal";
-import Link from "@tiptap/extension-link";
+import { pdConfig } from "..";
 
-export class PyrodataEditor extends HTMLElement {
+export class PdEditor extends HTMLElement {
     static observedAttributes = ['toolbar'];
 
     editor: Editor;
@@ -14,27 +12,11 @@ export class PyrodataEditor extends HTMLElement {
     constructor() {
         super();
 
-        const config = {
-            element: this,
-            extensions: [
-                StarterKit,
-                Link.configure({
-                    openOnClick: false
-                })
-            ],
-            content: '<p>Hello World!</p>' 
-        } satisfies Partial<EditorOptions>
-
         /**
          * Initialize TipTap editor
          */
-        this.editor = new Editor(config);
-        this.setAttribute('class', classNames(
-            'block',
-            'border border-gray-100 rounded-3xl *:outline-none',
-            'has-[.ProseMirror-focused]:border-black asd',
-            '[&>.ProseMirror]:px-4 [&>.ProseMirror]:py-4'
-        ));
+        this.editor = new Editor(Object.assign(pdConfig.editor.config, { element: this }))
+        this.setAttribute('class', pdConfig.editor.style)
     }
 
     connectedCallback() {
@@ -48,4 +30,4 @@ export class PyrodataEditor extends HTMLElement {
     }
 }
 
-customElements.define('pd-editor', PyrodataEditor);
+customElements.define('pd-editor', PdEditor);

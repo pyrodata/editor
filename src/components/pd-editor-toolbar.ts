@@ -20,8 +20,17 @@ export class PyrodataEditorToolbar extends HTMLElement {
     }
 
     constructor(
+        /**
+         * A reference to the TipTap editor
+         */
         protected editor: Editor,
+        /**
+         * Reference to dropdown element
+         */
         protected dropdown: PdDropdown,
+        /**
+         * Reference to modal element
+         */
         protected modal: PdModal,
     ) {
         super();
