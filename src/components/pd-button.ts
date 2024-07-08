@@ -11,7 +11,6 @@ export interface PdButton {
      * Default `button`
      */
     getType(): 'dropdown' | 'modal' | 'button';
-    dropdownTemplate?(): MenuItem[] | TemplateResult;
     /**
      * A `lit html` to render inside a `modal` or `dropdown`
      */
@@ -86,14 +85,7 @@ export abstract class PdButton extends HTMLElement {
             /**
              * Set dropdown specific props
              */
-            this.dropdown = document.querySelector('pd-dropdown') as PdDropdown
-            this.addEventListener('click', () => {
-                if (Array.isArray(this.dropdownTemplate!())) {
-                    this.dropdown.renderMenu(this.dropdownTemplate!() as MenuItem[])
-                }
-
-                this.dropdown.toggle(this)
-            })
+            this.addEventListener('click', () =>this.dropdown.toggle(this))
             /**
              * Hide dropdown on pressing escape
              * or when clicking outside the dropdown

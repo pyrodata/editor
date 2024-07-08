@@ -14,7 +14,7 @@ export class PdButtonHeading extends PdButton {
         return this.editor.isActive('heading');
     }
     
-    dropdownTemplate() {
+    getTemplate() {
         return [
             {
                 title: 'H2',
