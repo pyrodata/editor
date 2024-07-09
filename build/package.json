@@ -1,6 +1,5 @@
 {
     "name": "@pyrodata/editor",
-    "private": true,
     "version": "0.0.1",
     "main": "./dist/editor.mjs",
     "type": "module",
