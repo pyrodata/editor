@@ -6,6 +6,7 @@ import Table from "@tiptap/extension-table";
 import TableHeader from "@tiptap/extension-table-header";
 import TableRow from "@tiptap/extension-table-row";
 import TableCell from "@tiptap/extension-table-cell";
+import Underline from "@tiptap/extension-underline";
 
 export type PdConfig = {
     editor: {
@@ -55,7 +56,8 @@ export const pdConfig: PdConfig = {
                 }),
                 TableHeader,
                 TableRow,
-                TableCell
+                TableCell,
+                Underline
             ],
             content: `
                 <p>Hello World!</p>

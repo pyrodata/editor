@@ -8,11 +8,13 @@ import { PdButtonBulletList } from "./buttons/button-bullet-list";
 import { pdConfig } from "@/config";
 import type { PdButton } from "./pd-button";
 import { PdButtonTable } from "./buttons/button-table";
+import { PdButtonUnderline } from "./buttons/button-underline";
 
 export type ToolbarButtons = {
     'heading': typeof PdButtonHeading
     'bold': typeof PdButtonBold
     'italic': typeof PdButtonItalic
+    'underline': typeof PdButtonUnderline
     'strikethrough': typeof PdButtonStrike
     'link': typeof PdButtonLink
     'ordered-list': typeof PdButtonOrderedList
@@ -26,6 +28,7 @@ export class PdEditorToolbar extends HTMLElement {
         'heading': PdButtonHeading,
         'bold': PdButtonBold,
         'italic': PdButtonItalic,
+        'underline': PdButtonUnderline,
         'strikethrough': PdButtonStrike,
         'link': PdButtonLink,
         'ordered-list': PdButtonOrderedList,
