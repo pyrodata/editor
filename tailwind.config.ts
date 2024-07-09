@@ -3,7 +3,10 @@ import plugin from 'tailwindcss/plugin';
 import defaultTheme from "tailwindcss/defaultTheme";
 
 export default {
-    content: ["./src/**/*.{html,js,svelte,ts}"],
+    content: [
+        "./index.html",
+        "./src/**/*.{html,js,ts}"
+    ],
     theme: {
         container: {
             center: true
