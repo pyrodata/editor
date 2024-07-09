@@ -61,7 +61,7 @@ export class PdEditor extends HTMLElement {
          * Default set of buttons of none are specified
          */
         if (!toolbar) {
-            toolbar = 'heading|bold,italic,strikethrough|link,image'
+            toolbar = 'heading|bold,italic,strikethrough|link,image|table'
         }
 
         const groups = toolbar.split('|')

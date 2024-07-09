@@ -1,10 +1,11 @@
 import { html } from "lit-html";
 import { PdButton } from "../pd-button";
+import { pdConfig } from "@/config";
 
 export class PdButtonTable extends PdButton {
     protected button!: HTMLButtonElement;
 
-    connectedCallback() {
+    onMount() {
         this.editor.on('transaction', () => this.showButton())
         this.button = document.createElement('button')
 
@@ -33,37 +34,114 @@ export class PdButtonTable extends PdButton {
     }
 
     showButton() {
-        const reference = document.getSelection()!.anchorNode?.parentElement;
-        
+        let reference = document.getSelection()!.anchorNode?.parentElement;
+        reference = reference?.closest('td') 
+            ? reference.closest('td')
+            : reference?.closest('th')
+            ? reference.closest('th')
+            : null
+
         if (!reference) {
             this.button.classList.replace('block', 'hidden')
             return
         }
-
-        if (reference.closest('td')?.tagName !== 'TD') {
-            this.button.classList.replace('block', 'hidden')
-            return
-        }
         
-        const rects = reference.getBoundingClientRect();
+        const { top, left, width } = reference.getBoundingClientRect()
         
         this.button.classList.replace('hidden', 'block')
+        
+        this.button.style.top = `${top + 3}px`
+        this.button.style.left = `${(width + left) - 38}px`
 
-        this.button.style.top = `${rects.top + 3}px`
-        this.button.style.left = `${(rects.width + rects.left) - 38}px`
+        window.addEventListener('resize', () => {
+            const { top, left, width } = reference.getBoundingClientRect()
+
+            this.button.style.top = `${top + 3}px`
+            this.button.style.left = `${(width + left) - 38}px`
+        } )
     }
 
     showDropdown() {
         this.dropdown.renderHTML(html`
-            <div class="flex flex-col">
-                <button class="py-3 px-4 flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-                    <span>Insert row above</span>
-                </button>
-                <button class="py-2 px-4 flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-                    <span>Insert row below</span>
-                </button>
+            <div class="flex flex-col min-w-[250px]">
+                <div class="flex flex-col p-2 border-b border-gray-100">
+                    <button 
+                        class=${pdConfig.dropdown.item.style}
+                        @click=${() => {
+                            this.editor.chain().focus().toggleHeaderRow().run()
+                        }}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-toggle-right"><rect width="20" height="12" x="2" y="6" rx="6" ry="6"/><circle cx="16" cy="12" r="2"/></svg>
+                        <span>Toggle header row</span>
+                    </button>
+                    <button 
+                        class=${pdConfig.dropdown.item.style}
+                        @click=${() => {
+                            this.editor.chain().focus().toggleHeaderCell().run()
+                        }}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-toggle-right"><rect width="20" height="12" x="2" y="6" rx="6" ry="6"/><circle cx="16" cy="12" r="2"/></svg>
+                        <span>Toggle header column</span>
+                    </button>
+                </div>
+                <div class="flex flex-col p-2 border-b border-gray-100">
+                    <button 
+                        class=${pdConfig.dropdown.item.style}
+                        @click=${() => {
+                            this.editor.chain().focus().addRowBefore().run()
+                        }}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                        <span>Insert row above</span>
+                    </button>
+                    <button 
+                        class=${pdConfig.dropdown.item.style}
+                        @click=${() => {
+                            this.editor.chain().focus().addRowAfter().run()
+                        }}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                        <span>Insert row below</span>
+                    </button>
+                    <button 
+                        class=${pdConfig.dropdown.item.style}
+                        @click=${() => {
+                            this.editor.chain().focus().deleteRow().run()
+                        }}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                        <span>Delete row</span>
+                    </button>
+                </div>
+                <div class="flex flex-col p-2">
+                    <button 
+                        class=${pdConfig.dropdown.item.style}
+                        @click=${() => {
+                            this.editor.chain().focus().addColumnBefore().run()
+                        }}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                        <span>Insert column before</span>
+                    </button>
+                    <button 
+                        class=${pdConfig.dropdown.item.style}
+                        @click=${() => {
+                            this.editor.chain().focus().addColumnAfter().run()
+                        }}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                        <span>Insert column after</span>
+                    </button>
+                    <button 
+                        class=${pdConfig.dropdown.item.style}
+                        @click=${() => {
+                            this.editor.chain().focus().deleteRow().run()
+                        }}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                        <span>Delete column</span>
+                    </button>
+                </div>
             </div>
         `)
 

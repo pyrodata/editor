@@ -1,5 +1,5 @@
 import type { TemplateResult } from 'lit-html';
-import { computePosition } from '@floating-ui/dom';
+import { autoUpdate, computePosition, type Placement } from '@floating-ui/dom';
 import { html, render } from '@/lit';
 import { PdButton } from './pd-button';
 import { pdConfig } from '@/config';
@@ -11,7 +11,11 @@ export type MenuItem = {
 }
 
 export class PdDropdown extends HTMLElement {
-    reference?: HTMLElement | PdButton;
+    #reference?: HTMLElement | PdButton
+
+    #placement: Placement = 'bottom-start'
+
+    #updater?: () => void
 
     connectedCallback() {
         this.setAttribute('class', pdConfig.dropdown.style)
@@ -21,19 +25,45 @@ export class PdDropdown extends HTMLElement {
         document.addEventListener('keyup', (e) => e.code === 'Escape' && this.hide())
     }
 
+    disconnectCallback() {
+        if (this.#updater) {
+            this.#updater()
+        }
+    }
+
+    setPlacement(placement: Placement) {
+        this.#placement = placement
+    }
+
+    getPlacement() {
+        return this.#placement;
+    }
+
+    getReference() {
+        return this.#reference;
+    }
+
     renderHTML(html: TemplateResult) {
         render(html, this)
     }
 
-    async show(reference: HTMLElement) {
-        const { x, y } = await computePosition(reference, this, { placement: 'bottom-start' })
-        
-        this.reference = reference;
+    updatePosition() {
+        return computePosition(this.getReference()!, this, { placement: this.getPlacement() }).then(({ x, y }) => {            
+            this.style.top = `${y}px`
+            this.style.left = `${x}px`
+        })
+    }
+
+    async show(reference: HTMLElement) {        
+        this.#reference = reference;
         this.classList.remove('hidden')
         this.classList.add('block')
         
-        this.style.top = `${y}px`
-        this.style.left = `${x}px`
+        this.#updater = autoUpdate(
+            reference,
+            this,
+            this.updatePosition.bind(this)
+        )
 
         this.render()
         
@@ -43,8 +73,12 @@ export class PdDropdown extends HTMLElement {
     hide() {
         this.classList.remove('block')
         this.classList.add('hidden')
-
+        
         document.removeEventListener('click', this.onClickOutside.bind(this))
+        
+        if (this.#updater) {
+            this.#updater()
+        }
     }
 
     toggle(reference: HTMLElement) {
@@ -58,7 +92,7 @@ export class PdDropdown extends HTMLElement {
     onClickOutside(e: MouseEvent) {
         if (
             this.contains((e.target as HTMLElement)) 
-            || this.reference?.contains((e.target as HTMLElement))
+            || this.#reference?.contains((e.target as HTMLElement))
         ) {
             return
         }
@@ -67,14 +101,14 @@ export class PdDropdown extends HTMLElement {
     }
 
     render() {
-        if(!(this.reference instanceof PdButton)) {
+        if(!(this.#reference instanceof PdButton)) {
             return
         }
 
-        if (Array.isArray(this.reference.getTemplate())) {
+        if (Array.isArray(this.#reference.getTemplate())) {
             const template = html`
                 <nav class="list-none flex flex-col">
-                    ${(this.reference.getTemplate() as MenuItem[]).map(item => 
+                    ${(this.#reference.getTemplate() as MenuItem[]).map(item => 
                         html`
                             <li>
                                 <button class="p-2 w-full rounded-lg hover:bg-gray-50" @click=${(e: PointerEvent) => item.action(e, this)}>
@@ -92,7 +126,7 @@ export class PdDropdown extends HTMLElement {
             return render(template, this)
         }
 
-        return render(this.reference.getTemplate(), this)
+        return render(this.#reference.getTemplate(), this)
     }
 }
 

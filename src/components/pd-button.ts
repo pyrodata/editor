@@ -30,6 +30,11 @@ export interface PdButton {
      * `modal` and `dropdown` dont have a `onClick` callback
      */
     onClick(): void;
+    /**
+     * Called when all attributes are parsed, events are 
+     * registered and element is connected to the DOM tree
+     */
+    onMount(): void;
 }
 
 export class PdButton extends HTMLElement implements PdButton {
@@ -68,6 +73,13 @@ export class PdButton extends HTMLElement implements PdButton {
         protected modal: PdModal
     ) { super() }
 
+    /**
+     * Dont call the `connectedCallback` inside a custom button
+     * 
+     * Use the `onMount` hook instead
+     * 
+     * @deprecated use `onMount` instead
+     */
     connectedCallback() {
         this.setAttribute('class', pdConfig.button.style)
         this.setAttribute('title', this.getTitle())
@@ -88,6 +100,10 @@ export class PdButton extends HTMLElement implements PdButton {
 
         if (this.getType() === 'modal' || this.getType() === 'dropdown') {
             this.addEventListener('click', () => this[this.getType() as 'modal' | 'dropdown'].toggle(this))
+        }
+
+        if (this.onMount) {
+            this.onMount()
         }
     }
 

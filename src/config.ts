@@ -28,6 +28,9 @@ export type PdConfig = {
     },
     dropdown: {
         style: string;
+        item: {
+            style: string;
+        }
     }
 }
 
@@ -45,7 +48,11 @@ export const pdConfig: PdConfig = {
                 Link.configure({
                     openOnClick: false
                 }),
-                Table,
+                Table.configure({
+                    resizable: true,
+                    handleWidth: 10,
+                    lastColumnResizable: true
+                }),
                 TableHeader,
                 TableRow,
                 TableCell
@@ -99,6 +106,13 @@ export const pdConfig: PdConfig = {
             'bg-white shadow-md shadow-gray-100',
             'border border-gray-50',
             'rounded-xl'
-        )
+        ),
+        item: {
+            style: classNames(
+                'py-2 px-4 flex items-center gap-4',
+                'rounded-lg',
+                'hover:bg-slate-200'
+            )
+        }
     }
 }
