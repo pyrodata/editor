@@ -12,10 +12,3 @@ export {
     PdEditor,
     PdButton
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    const editor = document.querySelector('pd-editor') as PdEditor
-
-    //editor.toolbar.removeButton('bold')
-    editor.editor.chain().focus().insertTable().run()
-})

@@ -16,9 +16,8 @@ const getPackageNameCamelCase = () => {
 };
 
 const fileName = {
-    es: `${getPackageName()}.mjs`,
-    iife: `${getPackageName()}.iife.js`,
-};
+    es: `editor.mjs`
+}
 
 const formats = Object.keys(fileName) as Array<keyof typeof fileName>;
 
@@ -28,8 +27,7 @@ export default defineConfig({
         outDir: "./build/dist",
         lib: {
             entry: path.resolve(__dirname, "src/index.ts"),
-            name: getPackageNameCamelCase(),
-            formats: ['es', 'iife'],
+            formats: ['es'],
             fileName: format => fileName[format],
         },
         rollupOptions: {

@@ -2,11 +2,11 @@
     "name": "@pyrodata/editor",
     "private": true,
     "version": "0.0.1",
-    "main": "./dist/vite-vanilla-ts-lib-starter.mjs",
+    "main": "./dist/editor.mjs",
     "type": "module",
     "exports": {
         ".": {
-            "import": "./dist/vite-vanilla-ts-lib-starter.mjs"
+            "import": "./dist/editor.mjs"
         },
         "./dist/": {
             "import": "./dist/"
