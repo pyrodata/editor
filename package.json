@@ -1,6 +1,6 @@
 {
     "name": "@pyrodata/editor",
-    "version": "0.0.2",
+    "version": "1.0.0-beta.1",
     "main": "./dist/editor.mjs",
     "type": "module",
     "exports": {
