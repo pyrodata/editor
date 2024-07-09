@@ -1,6 +1,6 @@
 import type { TemplateResult } from 'lit-html';
 import { autoUpdate, computePosition, type Placement } from '@floating-ui/dom';
-import { html, render } from '@/lit';
+import { html, render } from 'lit';
 import { PdButton } from './pd-button';
 import { pdConfig } from '@/config';
 

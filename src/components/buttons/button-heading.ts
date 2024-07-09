@@ -1,4 +1,4 @@
-import { html } from "@/lit";
+import { html } from "lit";
 import { PdButton } from "../pd-button";
 
 export class PdButtonHeading extends PdButton {
