@@ -1,6 +1,6 @@
 {
     "name": "@pyrodata/editor",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "main": "./dist/editor.mjs",
     "type": "module",
     "exports": {
@@ -23,7 +23,7 @@
         "lint:scripts": "eslint . --ext .ts",
         "lint:styles": "stylelint ./**/*.{css,scss}",
         "format:scripts": "prettier . --write",
-        "format:styles": "stylelint ./**/*.{css,scss} --fix",
+        "format:styles": "stylelint ./**/*.{css,scss} --fix"
     },
     "devDependencies": {
         "@tailwindcss/typography": "^0.5.13",
