@@ -1,17 +1,14 @@
 {
     "name": "@pyrodata/editor",
-    "version": "1.0.0-beta.2",
+    "version": "1.0.0-beta.3",
     "main": "./dist/editor.mjs",
     "type": "module",
     "exports": {
         ".": {
-            "import": "./dist/editor.mjs"
-        },
-        "./dist/": {
-            "import": "./dist/"
+            "import": "./dist/editor.mjs",
+            "types": "./dist/index.d.ts"
         }
     },
-    "types": "./dist/index.d.ts",
     "publishConfig": {
         "access": "public"
     },
