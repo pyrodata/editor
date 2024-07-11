@@ -1,4 +1,4 @@
-import { html } from "lit-html";
+import { html } from "lit";
 import { PdButton } from "../pd-button";
 import { classNames } from "@/utils";
 import { Ref, createRef, ref } from 'lit/directives/ref.js';

@@ -23,7 +23,7 @@ export interface PdButton {
     /**
      * A `lit html` to render inside a `modal` or `dropdown`
      */
-    getTemplate(): TemplateResult | MenuItem[];
+    getTemplate(): TemplateResult | MenuItem[] | string;
     /**
      * A callback function that runs when clicking the button
      * 
@@ -98,8 +98,17 @@ export class PdButton extends HTMLElement implements PdButton {
         }
 
         if (this.getType() === 'modal' || this.getType() === 'dropdown') {
-            this.addEventListener('click', () => this[this.getType() as 'modal' | 'dropdown'].toggle(this))
+            this.addEventListener('click', this.toggleCallback)
         }
+    }
+
+    toggleCallback() {
+        this[this.getType() as 'modal' | 'dropdown'].show(this)
+    }
+
+    disconnectedCallback() {
+        this.removeEventListener('click', this.onClick)
+        this.removeEventListener('click', this.toggleCallback)
     }
 
     setActive() {

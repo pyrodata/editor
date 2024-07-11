@@ -1,4 +1,4 @@
-import { html, render } from "lit-html"
+import { html, render, TemplateResult } from "lit"
 import { PdButton } from "./pd-button";
 import { pdConfig } from "@/config";
 
@@ -33,6 +33,7 @@ export class PdModal extends HTMLElement {
     }
 
     toggle(reference: HTMLElement | PdButton) {
+        console.log(reference)
         if (!this.checkVisibility()) {
             this.show(reference)
         } else {
@@ -41,25 +42,35 @@ export class PdModal extends HTMLElement {
     }
 
     render() {
-        if ((this.reference instanceof PdButton)) {
-            const template = html`
-                <div  class=${pdConfig.modal.dialog.style}>
-                    <div class="p-4 flex items-center">
-                        ${
-                            this.reference.getTitle() !== '' 
-                                ? html`<span class="text-xl font-bold">${this.reference.getTitle()}</span>` 
-                                : ``
-                        }
-                        <button @click=${() => this.hide()} class="p-2 ms-auto rounded-full bg-slate-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-                        </button>
-                    </div>
-                    <div class="p-4">
-                        ${this.reference.getTemplate()}
-                    </div>
-                </div>
-            `
-            render(template, this)
+        let body: TemplateResult | string = ''
+        let title = ''
+
+        if (this.reference instanceof PdButton) {
+            title = this.reference.getTitle
+                ? this.reference.getTitle()
+                : ''
+            body = this.reference.getTemplate 
+                ? this.reference.getTemplate() as TemplateResult | string
+                : ''
         }
+
+        const template = html`
+            <div  class=${pdConfig.modal.dialog.style}>
+                <div class="p-4 flex items-center">
+                    ${
+                        title !== '' 
+                            ? html`<span class="text-xl font-bold">${title}</span>` 
+                            : ``
+                    }
+                    <button @click=${() => this.hide()} class="p-2 ms-auto rounded-full bg-slate-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                    </button>
+                </div>
+                <div class="p-4">
+                    ${body}
+                </div>
+            </div>
+        `
+        render(template, this)
     }
 }

@@ -1,4 +1,5 @@
 import StarterKit from '@tiptap/starter-kit'
+import Image from '@tiptap/extension-image'
 import { PdButtonBold } from './components/buttons/button-bold'
 import { PdButtonHeading } from './components/buttons/button-heading'
 import { PdButtonItalic } from './components/buttons/button-italic'
@@ -13,6 +14,8 @@ import TableHeader from '@tiptap/extension-table-header'
 import TableRow from '@tiptap/extension-table-row'
 import TableCell from '@tiptap/extension-table-cell'
 import Underline from '@tiptap/extension-underline'
+import { PdButtonImage } from './components/buttons/button-image'
+import { PdButtonLink } from './components/buttons/button-link'
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -32,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     PdButtonBold,
                     PdButtonItalic,
                     PdButtonUnderline,
-                    PdButtonStrike
+                    PdButtonStrike,
                 ]
             }
         },
@@ -50,7 +53,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 TableHeader,
                 TableRow,
                 TableCell,
-                Underline
+                Underline,
+                Image
             ],
             content: `
                 <p>Hello World!</p>
@@ -60,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     test.toolbar.unregisterGroup('heading')
 
-    test.toolbar.registerGroup('test', test)
-    test.toolbar.addButton('test', PdButtonStrike, test)
+    test.toolbar.registerGroup('others', test)
+    test.toolbar.addButton('others', PdButtonLink, test)
+    test.toolbar.addButton('others', PdButtonImage, test)
 })
