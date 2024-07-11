@@ -39,7 +39,7 @@ export default defineConfig({
                 extend: true,
                 entryFileNames: (entry) => {
                     const { name, facadeModuleId } = entry;
-                    const fileName = `${name}.js`;
+                    const fileName = `${name}.mjs`;
 
                     if (!facadeModuleId) {
                         return fileName;

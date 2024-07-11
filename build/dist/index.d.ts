@@ -3,14 +3,13 @@
 import { Placement } from '@floating-ui/dom';
 import { Editor, EditorOptions } from '@tiptap/core';
 import { TemplateResult } from 'lit-html';
-import { Ref } from 'lit/directives/ref.js';
 
 export type MenuItem = {
 	title: string;
 	icon: TemplateResult;
 	action: (e: PointerEvent, dropdown: PdDropdown) => void;
 };
-export declare class PdDropdown extends HTMLElement {
+declare class PdDropdown extends HTMLElement {
 	#private;
 	connectedCallback(): void;
 	disconnectCallback(): void;
@@ -25,7 +24,7 @@ export declare class PdDropdown extends HTMLElement {
 	onClickOutside(e: MouseEvent): void;
 	render(): import("lit-html").RootPart | undefined;
 }
-export declare class PdModal extends HTMLElement {
+declare class PdModal extends HTMLElement {
 	/**
 	 * A reference to the element that activated the modal
 	 */
@@ -147,7 +146,7 @@ export declare class PdEditorToolbar extends HTMLElement {
 	 */
 	rerender(): void;
 }
-export declare class PdEditor extends HTMLElement {
+declare class PdEditor extends HTMLElement {
 	/**
 	 * Reference to PdEditorToolbar
 	 *
@@ -195,130 +194,6 @@ export declare class PdEditor extends HTMLElement {
 	renderedCallback(): void;
 	setEditor(editor: Editor): void;
 	getEditor(): Editor;
-}
-export declare class PdButtonBold extends PdButton {
-	getIcon(): string;
-	onClick(): void;
-	isActive(): boolean;
-}
-export declare class PdButtonBulletList extends PdButton {
-	getIcon(): string;
-	getTitle(): string;
-	onClick(): void;
-	isActive(): boolean;
-}
-export declare class PdButtonHeading extends PdButton {
-	getType(): "dropdown";
-	getIcon(): string;
-	isActive(): boolean;
-	getTemplate(): {
-		title: string;
-		icon: import("lit-html").TemplateResult<1>;
-		action: () => void;
-	}[];
-}
-export declare class PdButtonImage extends PdButton {
-	/**
-	 * A reference to the HTMLFormElement
-	 *
-	 * @link https://lit.dev/docs/api/directives/#createRef
-	 */
-	private formRef;
-	/**
-	 * Which type of button we are creating?
-	 * It can be one of 'button', 'dropdown' or 'modal'. Default is button
-	 *
-	 * @optional
-	 * @default button
-	 */
-	getType(): "modal";
-	/**
-	 * Should be an SVG.
-	 *
-	 * If you use font icons, that works too (<i class="fa fa-image"></i>)
-	 *
-	 * All icons used by the editor are from https://lucide.dev/icons/
-	 * with a stroke width of 1px and the size being 18px
-	 *
-	 * @required
-	 */
-	getIcon(): string;
-	/**
-	 * The title is used as a tooltip when hovering the button
-	 *
-	 * Beside being used as tooltip, its also used as header title in a modal
-	 *
-	 * @required
-	 */
-	getTitle(): string;
-	/**
-	 * A function that that checks when the button should be in an 'active' state
-	 * Since we use TipTap under the hood, we can use TipTaps `.isActive()` method
-	 *
-	 * @required
-	 */
-	isActive(): boolean;
-	/**
-	 * The callback we call when we submit the form in the modal
-	 */
-	setImage(e: SubmitEvent): void;
-	/**
-	 * The returned string of this method will be rendered as body
-	 * of the modal
-	 */
-	getTemplate(): import("lit-html").TemplateResult<1>;
-	/**
-	 * We can get the src attribute of an inserted image using this code
-	 *
-	 * @link https://tiptap.dev/docs/editor/api/editor#getattributes
-	 */
-	get valueSrc(): any;
-}
-export declare class PdButtonItalic extends PdButton {
-	getIcon(): string;
-	onClick(): void;
-	isActive(): boolean;
-}
-export declare class PdButtonLink extends PdButton {
-	formRef: Ref<HTMLFormElement>;
-	constructor(editor: Editor, dropdown: PdDropdown, modal: PdModal);
-	getType(): "modal";
-	getIcon(): string;
-	getTitle(): string;
-	isActive(): boolean;
-	setLink(e: SubmitEvent): void;
-	unsetLink(): void;
-	getTemplate(): import("lit-html").TemplateResult<1>;
-	showDropdown(): void;
-	get textValue(): string;
-	get urlValue(): any;
-}
-export declare class PdButtonOrderedList extends PdButton {
-	getIcon(): string;
-	getTitle(): string;
-	onClick(): void;
-	isActive(): boolean;
-}
-export declare class PdButtonStrike extends PdButton {
-	getIcon(): string;
-	onClick(): void;
-	isActive(): boolean;
-}
-export declare class PdButtonTable extends PdButton {
-	protected button: HTMLButtonElement;
-	onMount(): void;
-	getTitle(): string;
-	getIcon(): string;
-	onClick(): void;
-	isActive(): boolean;
-	showButton(): void;
-	showDropdown(): void;
-}
-export declare class PdButtonUnderline extends PdButton {
-	getIcon(): string;
-	getTitle(): string;
-	onClick(): void;
-	isActive(): boolean;
 }
 export type ToolbarButtonsConfigArray = typeof PdButton[][];
 export type ToolbarButtonsConfigNamed = {
