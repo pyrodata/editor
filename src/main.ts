@@ -7,7 +7,7 @@ import { PdButtonStrike } from './components/buttons/button-strikethrough'
 import { PdButtonUnderline } from './components/buttons/button-underline'
 import './style.css'
 
-import { createEditor, defaultConfig } from '@/editor'
+import { createEditor, defaultConfig } from './editor'
 import Link from '@tiptap/extension-link'
 import Table from '@tiptap/extension-table'
 import TableHeader from '@tiptap/extension-table-header'
