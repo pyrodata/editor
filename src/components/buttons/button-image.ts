@@ -1,7 +1,6 @@
 import { html } from 'lit';
 import { Ref, createRef, ref } from 'lit/directives/ref.js';
 import { PdButton } from "../pd-button";
-import { MenuItem } from "../pd-dropdown";
 import { classNames } from '@/utils';
 
 export class PdButtonImage extends PdButton {

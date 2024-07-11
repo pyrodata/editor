@@ -1,9 +1,8 @@
-import { type AnyExtension, Editor } from "@tiptap/core";
+import { Editor } from "@tiptap/core";
 import { PdEditorToolbar } from "./pd-editor-toolbar";
 import { PdDropdown } from "./pd-dropdown";
 import { PdModal } from "./pd-modal";
 import { pdConfig } from "@/config";
-import { defaultConfig } from "@/editor";
 
 export class PdEditor extends HTMLElement {
     /**

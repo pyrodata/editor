@@ -11,8 +11,8 @@ export type ButtonGroup = {
     }
 }
 
-export class PdEditorToolbar<T extends ButtonGroup = {}> extends HTMLElement {
-    groups: T = {} as T;
+export class PdEditorToolbar extends HTMLElement {
+    groups: ButtonGroup = {}
 
     registeredButtons: {[key: string]: PdButton} = {}
 

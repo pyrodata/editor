@@ -2,7 +2,7 @@
 
 Creating a custom button is easy, in this guide we will explain how you can create a custom button and add it to the toolbar.
 
-In this guide we will create a button that allows us to insert a images.
+In this guide we will create a button that allows us to insert an image.
 
 ## Basis
 

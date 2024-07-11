@@ -16,6 +16,7 @@ import TableHeader from '@tiptap/extension-table-header';
 import TableRow from '@tiptap/extension-table-row';
 import TableCell from '@tiptap/extension-table-cell';
 import Underline from '@tiptap/extension-underline';
+import Image from '@tiptap/extension-image';
 import { createObserver, registerElement } from './utils';
 
 export type ToolbarButtonsConfigArray = typeof PdButton[][]
@@ -56,7 +57,8 @@ export const defaultConfig: EditorConfig = {
             TableHeader,
             TableRow,
             TableCell,
-            Underline
+            Underline,
+            Image
         ],
         content: `
             <p>Hello Worlds!</p>
@@ -112,5 +114,6 @@ export const getModal = () => document.querySelector('pd-modal') as PdModal
     ?? document.body.appendChild(new PdModal) as PdModal
 
 export {
-    PdButton
+    PdButton,
+    PdEditorToolbar
 }

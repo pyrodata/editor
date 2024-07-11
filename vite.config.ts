@@ -2,6 +2,8 @@
 import path from "path";
 import { defineConfig } from "vite";
 import packageJson from "./package.json";
+import dts from 'vite-plugin-dts'
+import { sync } from 'glob';
 
 const getPackageName = () => {
     return packageJson.name;
@@ -23,16 +25,33 @@ const formats = Object.keys(fileName) as Array<keyof typeof fileName>;
 
 export default defineConfig({
     base: "./",
+    //plugins: [dts({ entryRoot: './' })],
     build: {
         outDir: "./build/dist",
         lib: {
-            entry: path.resolve(__dirname, "src/editor.ts"),
+            entry: path.resolve(__dirname, "src/index.ts"),
             formats: ['es'],
             fileName: format => fileName[format],
         },
         rollupOptions: {
+            input: sync(path.resolve(__dirname, 'src/**/index.ts')),
             output: {
-                extend: true
+                extend: true,
+                entryFileNames: (entry) => {
+                    const { name, facadeModuleId } = entry;
+                    const fileName = `${name}.js`;
+
+                    if (!facadeModuleId) {
+                        return fileName;
+                    }
+
+                    const relativeDir = path.relative(
+                        path.resolve(__dirname, 'src'),
+                        path.dirname(facadeModuleId),
+                    );
+
+                    return path.join(relativeDir, fileName);
+                },
             }
         }
     },
