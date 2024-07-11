@@ -10,8 +10,6 @@ export class PdButtonStrike extends PdButton {
     }
 
     isActive() {
-        return this.editor.isActive('strike');
+        return this.editor.isActive('strike')
     }
 }
-
-customElements.define('pd-button-strike', PdButtonStrike);

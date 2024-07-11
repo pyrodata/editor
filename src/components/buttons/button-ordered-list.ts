@@ -14,8 +14,6 @@ export class PdButtonOrderedList extends PdButton {
     }
 
     isActive() {
-        return this.editor.isActive('orderedList');
+        return this.editor.isActive('orderedList')
     }
 }
-
-customElements.define('pd-button-ordered-list', PdButtonOrderedList)

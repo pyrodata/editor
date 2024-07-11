@@ -1,39 +1,27 @@
-import { PdButtonHeading } from "./buttons/button-heading";
-import { PdButtonBold } from "./buttons/button-bold";
-import { PdButtonItalic } from "./buttons/button-italic";
-import { PdButtonStrike } from "./buttons/button-strikethrough";
-import { PdButtonLink } from "./buttons/button-link";
-import { PdButtonOrderedList } from "./buttons/button-ordered-list";
-import { PdButtonBulletList } from "./buttons/button-bullet-list";
 import { pdConfig } from "@/config";
-import type { PdButton } from "./pd-button";
-import { PdButtonTable } from "./buttons/button-table";
-import { PdButtonUnderline } from "./buttons/button-underline";
+import { PdButton } from "./pd-button";
+import { PdEditor } from "./pd-editor";
+import { createElement, registerElement } from "@/utils";
+import { getDropdown, getModal } from "@/editor";
 
-export type ToolbarButtons = {
-    'heading': typeof PdButtonHeading
-    'bold': typeof PdButtonBold
-    'italic': typeof PdButtonItalic
-    'underline': typeof PdButtonUnderline
-    'strikethrough': typeof PdButtonStrike
-    'link': typeof PdButtonLink
-    'ordered-list': typeof PdButtonOrderedList
-    'bullet-list': typeof PdButtonBulletList
-    'table': typeof PdButtonTable
-    [key: string]: typeof PdButton
+export type ButtonGroup = {
+    [key: string]: {
+        el: HTMLElement
+        buttons: PdButton[]
+    }
 }
 
-export class PdEditorToolbar extends HTMLElement {
-    buttons: ToolbarButtons = {
-        'heading': PdButtonHeading,
-        'bold': PdButtonBold,
-        'italic': PdButtonItalic,
-        'underline': PdButtonUnderline,
-        'strikethrough': PdButtonStrike,
-        'link': PdButtonLink,
-        'ordered-list': PdButtonOrderedList,
-        'bullet-list': PdButtonBulletList,
-        'table': PdButtonTable,
+export class PdEditorToolbar<T extends ButtonGroup = {}> extends HTMLElement {
+    groups: T = {} as T;
+
+    registeredButtons: {[key: string]: PdButton} = {}
+
+    constructor() {
+        super();
+
+        ['buttonAdded', 'groupRegistered', 'groupUnregistered'].forEach(event => 
+            this.addEventListener(event, this.rerender.bind(this)
+        ))
     }
 
     connectedCallback() {
@@ -41,45 +29,86 @@ export class PdEditorToolbar extends HTMLElement {
     }
 
     /**
-     * Add a new button implementation
+     * Registers and adds a new button to the toolbar
      * 
-     * To display the button in the toolbar you have to 
-     * update the toolbar attribute on the editor element
-     * 
-     * @param name      - name of the button
-     * @param button    - implementation
+     * @param button 
+     * @param editor 
      */
-    addButton(name: string, button: typeof PdButton) {
-        if (this.buttons[name]) {
-            console.warn(`A button with this name already exists, \`${name}\`. This can cause unexpected behaviour.`)
+    addButton(groupName: keyof ButtonGroup, button: typeof PdButton, editor: PdEditor) {
+        if (!this.groups[groupName]) {
+            throw new Error(`The group named '${groupName}' does not exist. Please ensure you have spelled the group name correctly or verify that a group with this name has been registered.`)
         }
 
-        this.buttons[name] = button;
-        this.dispatchEvent(new CustomEvent('buttonAdded', { 
-            detail: {
-                name,
-                button
-            }
-        }))
+        registerElement(button)
+
+        const group = this.groups[groupName]
+        const btn = new button(
+            editor.getEditor(),
+            getDropdown(),
+            getModal()
+        )
+
+        group.buttons.push(btn)
+
+        this.dispatchEvent(new CustomEvent('buttonAdded', { detail: btn }))
     }
 
     /**
-     * Removes a registrated button
+     * Register a new group with buttons to the toolbar
      * 
-     * This will also remove the button from the toolbar
-     * since we deleted the implementation
+     * Existing groups must be unregistered first before overwriting
      * 
-     * @param name      - name of the button which was used upon registration
+     * @param name 
+     * @param editor 
+     * @param buttons 
      */
-    removeButton(name: string) {
-        if (!this.buttons[name]) {
-            return
+    registerGroup(name: string, editor: PdEditor, buttons: typeof PdButton[] = []) {
+        /**
+         * We cannot overwrite existing groups
+         * If we want to do so we need to unregisterGroup first
+         */
+        if (this.groups[name]) {
+            throw new Error(`A group with name ${name} already exists, if this was intentional \`unregisterGroup\` first.`)
         }
 
-        delete this.buttons[name]
+        const groupEl = createElement('pd-button-group', { id: `group-${name}`, class: 'flex ms-2' })
 
-        this.dispatchEvent(new CustomEvent('buttonRemoved', { detail: { name } }))
+        this.groups[name] = {
+            el: groupEl,
+            buttons: []
+        }
+        buttons.forEach(button => this.addButton(name, button, editor))
+
+        this.dispatchEvent(new CustomEvent('groupRegistered', { detail: this.groups[name] }))
+    }
+
+    /**
+     * Removes a group from the toolbar
+     * 
+     * All buttons registered on this group will be deleted aswell
+     * 
+     * @param name 
+     */
+    unregisterGroup(name: string) {
+        delete this.groups[name]
+
+        this.dispatchEvent(new CustomEvent('groupUnregistered', { detail: this.groups[name] }))
+    }
+
+    /**
+     * Rerenders all buttons
+     * 
+     * Some events requires the toolbar from rerendering, like when you add or remove a button
+     */
+    rerender() {
+        this.replaceChildren()
+        
+        for (const [_, group] of Object.entries(this.groups)) {
+            group.buttons.forEach(button => {
+                group.el.append(button)
+            })
+
+            this.append(group.el)
+        }
     }
 }
-
-customElements.define('pd-editor-toolbar', PdEditorToolbar);

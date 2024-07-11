@@ -2,7 +2,7 @@ import { Editor } from "@tiptap/core";
 import type { MenuItem, PdDropdown } from "./pd-dropdown";
 import { TemplateResult } from "lit-html";
 import { PdModal } from "./pd-modal";
-import { pdConfig } from "..";
+import { pdConfig } from "@/config";
 
 export interface PdButton {
     /**
@@ -72,15 +72,14 @@ export class PdButton extends HTMLElement implements PdButton {
          */
         protected modal: PdModal
     ) { super() }
-
-    /**
-     * Dont call the `connectedCallback` inside a custom button
-     * 
-     * Use the `onMount` hook instead
-     * 
-     * @deprecated use `onMount` instead
-     */
-    connectedCallback() {
+    
+    onMount() {
+        /**
+         * A rerender trigger in the toolbar will duplicate
+         * the content of the button, so we empty it first 
+         */
+        this.replaceChildren()
+        
         this.setAttribute('class', pdConfig.button.style)
         this.setAttribute('title', this.getTitle())
 
@@ -100,10 +99,6 @@ export class PdButton extends HTMLElement implements PdButton {
 
         if (this.getType() === 'modal' || this.getType() === 'dropdown') {
             this.addEventListener('click', () => this[this.getType() as 'modal' | 'dropdown'].toggle(this))
-        }
-
-        if (this.onMount) {
-            this.onMount()
         }
     }
 

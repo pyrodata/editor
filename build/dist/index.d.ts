@@ -3,35 +3,7 @@
 import { Placement } from '@floating-ui/dom';
 import { Editor, EditorOptions } from '@tiptap/core';
 import { TemplateResult } from 'lit-html';
-import { Ref } from 'lit/directives/ref.js';
 
-export type PdConfig = {
-	editor: {
-		style: string;
-		config: Partial<EditorOptions>;
-	};
-	toolbar: {
-		style: string;
-	};
-	button: {
-		style: string;
-	};
-	modal: {
-		backdrop: {
-			style: string;
-		};
-		dialog: {
-			style: string;
-		};
-	};
-	dropdown: {
-		style: string;
-		item: {
-			style: string;
-		};
-	};
-};
-export declare const pdConfig: PdConfig;
 export type MenuItem = {
 	title: string;
 	icon: TemplateResult;
@@ -129,148 +101,124 @@ export declare class PdButton extends HTMLElement implements PdButton {
 	 * Reference to modal element
 	 */
 	modal: PdModal);
-	/**
-	 * Dont call the `connectedCallback` inside a custom button
-	 *
-	 * Use the `onMount` hook instead
-	 *
-	 * @deprecated use `onMount` instead
-	 */
-	connectedCallback(): void;
 	setActive(): void;
 	setInactive(): void;
 	toggleActive(): void;
 }
-declare class PdButtonHeading extends PdButton {
-	getType(): "dropdown";
-	getIcon(): string;
-	isActive(): boolean;
-	getTemplate(): {
-		title: string;
-		icon: import("lit-html").TemplateResult<1>;
-		action: () => void;
-	}[];
-}
-declare class PdButtonBold extends PdButton {
-	getIcon(): string;
-	onClick(): void;
-	isActive(): boolean;
-}
-declare class PdButtonItalic extends PdButton {
-	getIcon(): string;
-	onClick(): void;
-	isActive(): boolean;
-}
-declare class PdButtonStrike extends PdButton {
-	getIcon(): string;
-	onClick(): void;
-	isActive(): boolean;
-}
-declare class PdButtonLink extends PdButton {
-	formRef: Ref<HTMLFormElement>;
-	constructor(editor: Editor, dropdown: PdDropdown, modal: PdModal);
-	getType(): "modal";
-	getIcon(): string;
-	getTitle(): string;
-	isActive(): boolean;
-	setLink(e: SubmitEvent): void;
-	unsetLink(): void;
-	getTemplate(): import("lit-html").TemplateResult<1>;
-	showDropdown(): void;
-	get textValue(): string;
-	get urlValue(): any;
-}
-declare class PdButtonOrderedList extends PdButton {
-	getIcon(): string;
-	getTitle(): string;
-	onClick(): void;
-	isActive(): boolean;
-}
-declare class PdButtonBulletList extends PdButton {
-	getIcon(): string;
-	getTitle(): string;
-	onClick(): void;
-	isActive(): boolean;
-}
-declare class PdButtonTable extends PdButton {
-	protected button: HTMLButtonElement;
-	onMount(): void;
-	getTitle(): string;
-	getIcon(): string;
-	onClick(): void;
-	isActive(): boolean;
-	showButton(): void;
-	showDropdown(): void;
-}
-declare class PdButtonUnderline extends PdButton {
-	getIcon(): string;
-	getTitle(): string;
-	onClick(): void;
-	isActive(): boolean;
-}
-export type ToolbarButtons = {
-	"heading": typeof PdButtonHeading;
-	"bold": typeof PdButtonBold;
-	"italic": typeof PdButtonItalic;
-	"underline": typeof PdButtonUnderline;
-	"strikethrough": typeof PdButtonStrike;
-	"link": typeof PdButtonLink;
-	"ordered-list": typeof PdButtonOrderedList;
-	"bullet-list": typeof PdButtonBulletList;
-	"table": typeof PdButtonTable;
-	[key: string]: typeof PdButton;
+export type ButtonGroup = {
+	[key: string]: {
+		el: HTMLElement;
+		buttons: PdButton[];
+	};
 };
 declare class PdEditorToolbar extends HTMLElement {
-	buttons: ToolbarButtons;
+	groups: ButtonGroup;
+	registeredButtons: {
+		[key: string]: PdButton;
+	};
+	constructor();
 	connectedCallback(): void;
 	/**
-	 * Add a new button implementation
+	 * Registers and adds a new button to the toolbar
 	 *
-	 * To display the button in the toolbar you have to
-	 * update the toolbar attribute on the editor element
-	 *
-	 * @param name      - name of the button
-	 * @param button    - implementation
+	 * @param button
+	 * @param editor
 	 */
-	addButton(name: string, button: typeof PdButton): void;
+	addButton(groupName: keyof ButtonGroup, button: typeof PdButton, editor: PdEditor): void;
 	/**
-	 * Removes a registrated button
+	 * Register a new group with buttons to the toolbar
 	 *
-	 * This will also remove the button from the toolbar
-	 * since we deleted the implementation
+	 * Existing groups must be unregistered first before overwriting
 	 *
-	 * @param name      - name of the button which was used upon registration
+	 * @param name
+	 * @param editor
+	 * @param buttons
 	 */
-	removeButton(name: string): void;
+	registerGroup(name: string, editor: PdEditor, buttons?: typeof PdButton[]): void;
+	/**
+	 * Removes a group from the toolbar
+	 *
+	 * All buttons registered on this group will be deleted aswell
+	 *
+	 * @param name
+	 */
+	unregisterGroup(name: string): void;
+	/**
+	 * Rerenders all buttons
+	 *
+	 * Some events requires the toolbar from rerendering, like when you add or remove a button
+	 */
+	rerender(): void;
 }
-export declare class PdEditor extends HTMLElement {
-	static observedAttributes: string[];
-	/**
-	 * Reference to TipTap editor
-	 *
-	 * @type {Editor}
-	 */
-	editor: Editor;
+declare class PdEditor extends HTMLElement {
 	/**
 	 * Reference to PdEditorToolbar
 	 *
 	 * @type {PdEditorToolbar}
 	 */
-	toolbar: PdEditorToolbar;
+	readonly toolbar: PdEditorToolbar;
 	/**
 	 * Reference to PdDropdown
 	 *
 	 * @type {PdDropdown}
 	 */
-	dropdown: PdDropdown;
+	readonly dropdown: PdDropdown;
 	/**
 	 * Reference to PdModal
 	 *
 	 * @type {PdModal}
 	 */
-	modal: PdModal;
-	constructor();
-	renderButtons(): void;
+	readonly modal: PdModal;
+	/**
+	 * Reference to TipTap editor
+	 *
+	 * @type {Editor}
+	 */
+	protected editor: Editor;
+	constructor(
+	/**
+	 * Reference to PdEditorToolbar
+	 *
+	 * @type {PdEditorToolbar}
+	 */
+	toolbar: PdEditorToolbar, 
+	/**
+	 * Reference to PdDropdown
+	 *
+	 * @type {PdDropdown}
+	 */
+	dropdown: PdDropdown, 
+	/**
+	 * Reference to PdModal
+	 *
+	 * @type {PdModal}
+	 */
+	modal: PdModal);
+	connectedCallback(): void;
+	renderedCallback(): void;
+	setEditor(editor: Editor): void;
+	getEditor(): Editor;
 }
+export type ToolbarButtonsConfigArray = typeof PdButton[][];
+export type ToolbarButtonsConfigNamed = {
+	[key: string]: typeof PdButton[];
+};
+export type EditorConfig = {
+	tiptap: Partial<EditorOptions>;
+	toolbar: {
+		buttons: ToolbarButtonsConfigArray | ToolbarButtonsConfigNamed;
+	};
+};
+export declare const defaultConfig: EditorConfig;
+/**
+ * Create a new editor instance
+ *
+ * @param element   - Element which will be replaced with the editor
+ * @param config
+ * @returns {PdEditor}
+ */
+export declare const createEditor: (element: HTMLElement, config?: EditorConfig) => PdEditor;
+export declare const getDropdown: () => PdDropdown;
+export declare const getModal: () => PdModal;
 
 export {};

@@ -13,5 +13,3 @@ export class PdButtonBold extends PdButton {
         return this.editor.isActive('bold');
     }
 }
-
-customElements.define('pd-button-bold', PdButtonBold);

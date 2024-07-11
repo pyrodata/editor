@@ -148,5 +148,3 @@ export class PdButtonTable extends PdButton {
         this.dropdown.show(this.button)
     }
 }
-
-customElements.define('pd-button-table', PdButtonTable);

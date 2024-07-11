@@ -14,8 +14,6 @@ export class PdButtonUnderline extends PdButton {
     }
 
     isActive() {
-        return this.editor.isActive('bold');
+        return this.editor.isActive('underline')
     }
 }
-
-customElements.define('pd-button-underline', PdButtonUnderline);

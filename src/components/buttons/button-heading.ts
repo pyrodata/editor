@@ -54,5 +54,3 @@ export class PdButtonHeading extends PdButton {
         ]
     }
 }
-
-customElements.define('pd-button-heading', PdButtonHeading);

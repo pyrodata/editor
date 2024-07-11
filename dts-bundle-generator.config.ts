@@ -1,7 +1,7 @@
 const config = {
     entries: [
         {
-            filePath: "./src/index.ts",
+            filePath: "./src/editor.ts",
             outFile: "./build/dist/index.d.ts",
             noCheck: false,
         },

@@ -1,6 +1,6 @@
 import { html, render } from "lit-html"
 import { PdButton } from "./pd-button";
-import { pdConfig } from "..";
+import { pdConfig } from "@/config";
 
 const showEvent = new Event('show')
 const hideEvent = new Event('hide')
@@ -63,5 +63,3 @@ export class PdModal extends HTMLElement {
         }
     }
 }
-
-customElements.define('pd-modal', PdModal)

@@ -129,5 +129,3 @@ export class PdDropdown extends HTMLElement {
         return render(this.#reference.getTemplate(), this)
     }
 }
-
-customElements.define('pd-dropdown', PdDropdown);

@@ -17,5 +17,3 @@ export class PdButtonBulletList extends PdButton {
         return this.editor.isActive('bulletList');
     }
 }
-
-customElements.define('pd-button-bullet-list', PdButtonBulletList)

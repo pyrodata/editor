@@ -13,5 +13,3 @@ export class PdButtonItalic extends PdButton {
         return this.editor.isActive('italic');
     }
 }
-
-customElements.define('pd-button-italic', PdButtonItalic);

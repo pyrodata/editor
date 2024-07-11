@@ -195,5 +195,3 @@ export class PdButtonLink extends PdButton {
         return this.editor.getAttributes('link').href;
     }
 }
-
-customElements.define('pd-button-link', PdButtonLink);

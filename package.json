@@ -18,7 +18,7 @@
     "scripts": {
         "dev": "vite --host",
         "build": "rimraf build/**/* && tsc && vite build && dts-bundle-generator --config ./dts-bundle-generator.config.ts && copyfiles ./package.json build",
-        "test": "vitest",
+        "test": "tsc",
         "test:coverage": "vitest --coverage",
         "lint:scripts": "eslint . --ext .ts",
         "lint:styles": "stylelint ./**/*.{css,scss}",
@@ -32,6 +32,7 @@
         "autoprefixer": "^10.4.19",
         "copyfiles": "^2.4.1",
         "dts-bundle-generator": "^9.5.1",
+        "glob": "^11.0.0",
         "postcss": "^8.4.39",
         "rimraf": "^5.0.9",
         "tailwindcss": "^3.4.4",
