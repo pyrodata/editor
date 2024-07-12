@@ -1,19 +1,23 @@
 {
     "name": "@pyrodata/editor",
-    "version": "1.0.0-beta.9",
+    "version": "1.0.0-beta.12",
     "main": "./dist/index.mjs",
     "type": "module",
     "exports": {
         ".": {
-            "import": "./dist/index.js",
+            "import": "./dist/index.mjs",
             "types": "./dist/index.d.ts"
         },
-        "./components/*": {
-            "import": "./dist/components/*.mjs",
-            "types": "./dist/components/*.d.ts"
+        "./components": {
+            "import": "./dist/components/index.mjs",
+            "types": "./dist/components/index.d.ts"
         },
-        "./dist/*.css": {
-            "import": "./dist/*.css"
+        "./buttons": {
+            "import": "./dist/components/buttons/index.mjs",
+            "types": "./dist/components/buttons/index.d.ts"
+        },
+        "./dist/*": {
+            "import": "./dist/*"
         }
     },
     "publishConfig": {

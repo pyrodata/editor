@@ -118,3 +118,40 @@ export const pdConfig: PdConfig = {
         }
     }
 }
+
+// export const defaultConfig: EditorConfig = {
+//     toolbar: {
+//         buttons: [
+//             [
+//                 PdButtonHeading
+//             ],
+//             [
+//                 PdButtonBold,
+//                 PdButtonItalic,
+//                 PdButtonUnderline,
+//                 PdButtonStrike
+//             ]
+//         ]
+//     },
+//     tiptap: {
+//         extensions: [
+//             StarterKit,
+//             Link.configure({
+//                 openOnClick: false
+//             }),
+//             Table.configure({
+//                 resizable: true,
+//                 handleWidth: 10,
+//                 lastColumnResizable: true
+//             }),
+//             TableHeader,
+//             TableRow,
+//             TableCell,
+//             Underline,
+//             Image
+//         ],
+//         content: `
+//             <p>Hello Worlds!</p>
+//         `
+//     }
+// }

@@ -64,7 +64,7 @@ export class PdButtonImage extends PdButton {
 
         const formData = new FormData((e.target as HTMLFormElement))
         const src = formData.get('src') as string
-
+        // @ts-ignore
         this.editor.chain().focus().setImage({ src }).run()
         this.modal.hide()
         this.formRef.value?.reset()

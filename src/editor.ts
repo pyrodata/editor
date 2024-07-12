@@ -73,7 +73,7 @@ export const defaultConfig: EditorConfig = {
  * @param config
  * @returns {PdEditor}
  */
-export const createEditor = <T extends EditorConfig['toolbar']>(element: HTMLElement, config: EditorConfig = defaultConfig) => {
+export const createEditor = (element: HTMLElement, config: EditorConfig = defaultConfig) => {
     /**
      * Register custom elements before constructing the editor
      */
@@ -112,8 +112,3 @@ export const getDropdown = () => document.querySelector('pd-dropdown') as PdDrop
 
 export const getModal = () => document.querySelector('pd-modal') as PdModal
     ?? document.body.appendChild(new PdModal) as PdModal
-
-export {
-    PdButton,
-    PdEditorToolbar
-}

@@ -35,7 +35,7 @@ declare class PdModal extends HTMLElement {
 	toggle(reference: HTMLElement | PdButton): void;
 	render(): void;
 }
-export declare class PdButton extends HTMLElement {
+declare class PdButton extends HTMLElement {
 	/**
 	 * Reference to TipTap editor
 	 */
@@ -107,7 +107,7 @@ export type ButtonGroup = {
 		buttons: PdButton[];
 	};
 };
-export declare class PdEditorToolbar extends HTMLElement {
+declare class PdEditorToolbar extends HTMLElement {
 	groups: ButtonGroup;
 	registeredButtons: {
 		[key: string]: PdButton;
@@ -205,7 +205,6 @@ export type EditorConfig = {
 		buttons: ToolbarButtonsConfigArray | ToolbarButtonsConfigNamed;
 	};
 };
-export declare const defaultConfig: EditorConfig;
 /**
  * Create a new editor instance
  *
@@ -213,7 +212,7 @@ export declare const defaultConfig: EditorConfig;
  * @param config
  * @returns {PdEditor}
  */
-export declare const createEditor: <T extends EditorConfig["toolbar"]>(element: HTMLElement, config?: EditorConfig) => PdEditor;
+export declare const createEditor: (element: HTMLElement, config: EditorConfig) => PdEditor;
 export declare const getDropdown: () => PdDropdown;
 export declare const getModal: () => PdModal;
 
