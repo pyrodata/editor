@@ -67,4 +67,5 @@ document.addEventListener('DOMContentLoaded', () => {
     test.toolbar.registerGroup('others', test)
     test.toolbar.addButton('others', PdButtonLink, test)
     test.toolbar.addButton('others', PdButtonImage, test)
+    test.toolbar.removeButton('pd-button-bold')
 })

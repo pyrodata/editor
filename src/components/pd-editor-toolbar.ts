@@ -19,7 +19,7 @@ export class PdEditorToolbar extends HTMLElement {
     constructor() {
         super();
 
-        ['buttonAdded', 'groupRegistered', 'groupUnregistered'].forEach(event => 
+        ['buttonAdded', 'buttonRemoved', 'groupRegistered', 'groupUnregistered'].forEach(event => 
             this.addEventListener(event, this.rerender.bind(this)
         ))
     }
@@ -51,6 +51,10 @@ export class PdEditorToolbar extends HTMLElement {
         group.buttons.push(btn)
 
         this.dispatchEvent(new CustomEvent('buttonAdded', { detail: btn }))
+    }
+
+    removeButton(name: string) {
+        this.groups.format.buttons.find(btn => btn.constructor.name === name)?.remove()
     }
 
     /**
