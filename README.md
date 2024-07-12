@@ -4,9 +4,9 @@ A rich text / HTML editor inspired by reddit's editor
 
 ## WIP
 
-This is still in WIP stage, however, the editor is already fully functional.
+This is still in WIP stage, the editor is functional.
 
-You can see a demo by cloning the project and the running it in a dev environment using
+You can test it by cloning the project and the running it in a dev environment using
 
 ```bash
 pnpm run dev
