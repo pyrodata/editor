@@ -2,6 +2,8 @@ import { html } from "lit";
 import { PdButton } from "../pd-button";
 
 export class PdButtonHeading extends PdButton {
+    static name = 'pd-button-heading'
+    
     getType() {
         return 'dropdown' as const
     }

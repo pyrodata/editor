@@ -4,6 +4,8 @@ import { PdButton } from "../pd-button";
 import { classNames } from '@/utils';
 
 export class PdButtonImage extends PdButton {
+    static name = 'pd-button-image'
+    
     /**
      * A reference to the HTMLFormElement
      * 

@@ -212,7 +212,7 @@ export type EditorConfig = {
  * @param config
  * @returns {PdEditor}
  */
-export declare const createEditor: (element: HTMLElement, config: EditorConfig) => PdEditor;
+export declare const createEditor: (element: HTMLElement, config?: EditorConfig) => PdEditor;
 export declare const getDropdown: () => PdDropdown;
 export declare const getModal: () => PdModal;
 

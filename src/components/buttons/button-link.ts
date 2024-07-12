@@ -7,6 +7,8 @@ import type { PdDropdown } from "../pd-dropdown";
 import type { PdModal } from "../pd-modal";
 
 export class PdButtonLink extends PdButton {
+    static name = 'pd-button-link'
+    
     formRef: Ref<HTMLFormElement> = createRef()
 
     constructor(editor: Editor, dropdown: PdDropdown, modal: PdModal) { 

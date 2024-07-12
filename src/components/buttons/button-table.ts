@@ -3,6 +3,8 @@ import { PdButton } from "../pd-button";
 import { pdConfig } from "@/config";
 
 export class PdButtonTable extends PdButton {
+    static name = 'pd-button-table'
+    
     protected button!: HTMLButtonElement;
 
     onMount() {
