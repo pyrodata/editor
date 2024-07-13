@@ -67,8 +67,6 @@
         "@tiptap/extension-underline": "^2.4.0",
         "@tiptap/pm": "^2.4.0",
         "@tiptap/starter-kit": "^2.4.0",
-        "lit": "^3.1.4",
-        "lit-html": "^3.1.4",
-        "lucide": "^0.400.0"
+        "lit": "^3.1.4"
     }
 }

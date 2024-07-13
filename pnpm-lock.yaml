@@ -47,12 +47,6 @@ importers:
       lit:
         specifier: ^3.1.4
         version: 3.1.4
-      lit-html:
-        specifier: ^3.1.4
-        version: 3.1.4
-      lucide:
-        specifier: ^0.400.0
-        version: 0.400.0
     devDependencies:
       '@tailwindcss/typography':
         specifier: ^0.5.13
@@ -1357,9 +1351,6 @@ packages:
   lru-cache@6.0.0:
     resolution: {integrity: sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==}
     engines: {node: '>=10'}
-
-  lucide@0.400.0:
-    resolution: {integrity: sha512-/3WKHrf7rIsy5Fi1glFTJyZ+B9YkPRDh5NfBqcEyaqTQ+ceLuZeAOgNjJmKmek7bDUdx0M1xJ0E6XN2swJYPug==}
 
   magic-string@0.30.10:
     resolution: {integrity: sha512-iIRwTIf0QKV3UAnYK4PU8uiEc4SRh5jX0mwpIwETPpHdhVM4f53RSwS/vXvN1JhGX+Cs7B8qIq3d6AH49O5fAQ==}
@@ -3381,8 +3372,6 @@ snapshots:
   lru-cache@6.0.0:
     dependencies:
       yallist: 4.0.0
-
-  lucide@0.400.0: {}
 
   magic-string@0.30.10:
     dependencies:

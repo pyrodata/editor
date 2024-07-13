@@ -1,7 +1,7 @@
-import { pdConfig } from "@/config";
+import { styling } from "@/config";
 import { PdButton } from "./pd-button";
 import { PdEditor } from "./pd-editor";
-import { createElement, registerElement } from "@/utils";
+import { classNames, createElement, registerElement } from "@/utils";
 import { getDropdown, getModal } from "@/editor";
 
 export type ButtonGroup = {
@@ -15,17 +15,9 @@ export class PdEditorToolbar extends HTMLElement {
     groups: ButtonGroup = {}
 
     registeredButtons: {[key: string]: PdButton} = {}
-
-    constructor() {
-        super();
-
-        ['buttonAdded', 'buttonRemoved', 'groupRegistered', 'groupUnregistered'].forEach(event => 
-            this.addEventListener(event, this.rerender.bind(this)
-        ))
-    }
-
+    
     connectedCallback() {
-        this.setAttribute('class', pdConfig.toolbar.style);
+        this.setAttribute('class', styling.toolbar)
     }
 
     /**
@@ -49,10 +41,14 @@ export class PdEditorToolbar extends HTMLElement {
         )
 
         group.buttons.push(btn)
-
-        this.dispatchEvent(new CustomEvent('buttonAdded', { detail: btn }))
+        group.el.append(btn)
     }
 
+    /**
+     * Removes a button from the toolbar
+     * 
+     * @param name      - name of the button to remove
+     */
     removeButton(name: string) {
         this.groups.format.buttons.find(btn => btn.constructor.name === name)?.remove()
     }
@@ -75,7 +71,15 @@ export class PdEditorToolbar extends HTMLElement {
             throw new Error(`A group with name ${name} already exists, if this was intentional \`unregisterGroup\` first.`)
         }
 
-        const groupEl = createElement('pd-button-group', { id: `group-${name}`, class: 'flex ms-2' })
+        const groupEl = createElement('pd-button-group', { 
+            id: `group-${name}`, 
+            class: classNames(
+                'flex me-[1rem] relative',
+                'after:content-[\' \'] after:h-[1.2rem] after:w-[1px] after:bg-gray-100',
+                'after:absolute after:top-1/2 after:-right-[.54rem] after:-translate-y-1/2',
+                'last:after:hidden'
+            ) 
+        })
 
         this.groups[name] = {
             el: groupEl,
@@ -83,7 +87,7 @@ export class PdEditorToolbar extends HTMLElement {
         }
         buttons.forEach(button => this.addButton(name, button, editor))
 
-        this.dispatchEvent(new CustomEvent('groupRegistered', { detail: this.groups[name] }))
+        this.append(this.groups[name].el)
     }
 
     /**
@@ -95,14 +99,11 @@ export class PdEditorToolbar extends HTMLElement {
      */
     unregisterGroup(name: string) {
         delete this.groups[name]
-
-        this.dispatchEvent(new CustomEvent('groupUnregistered', { detail: this.groups[name] }))
+        this.groups[name].el.remove()
     }
 
     /**
-     * Rerenders all buttons
-     * 
-     * Some events requires the toolbar from rerendering, like when you add or remove a button
+     * Rerenders the toolbar
      */
     rerender() {
         this.replaceChildren()

@@ -1,6 +1,6 @@
-import { html, render, TemplateResult } from "lit"
+import { html, render, type TemplateResult } from "lit"
 import { PdButton } from "./pd-button";
-import { pdConfig } from "@/config";
+import { styling } from "@/config";
 
 const showEvent = new Event('show')
 const hideEvent = new Event('hide')
@@ -14,7 +14,7 @@ export class PdModal extends HTMLElement {
     constructor() {
         super()
 
-        this.setAttribute('class', pdConfig.modal.backdrop.style)
+        this.setAttribute('class', styling.modal.backdrop)
         document.addEventListener('keyup', (e) => e.code === 'Escape' && this.hide())
     }
 
@@ -33,7 +33,6 @@ export class PdModal extends HTMLElement {
     }
 
     toggle(reference: HTMLElement | PdButton) {
-        console.log(reference)
         if (!this.checkVisibility()) {
             this.show(reference)
         } else {
@@ -55,14 +54,14 @@ export class PdModal extends HTMLElement {
         }
 
         const template = html`
-            <div  class=${pdConfig.modal.dialog.style}>
+            <div  class=${styling.modal.dialog}>
                 <div class="p-4 flex items-center">
                     ${
                         title !== '' 
                             ? html`<span class="text-xl font-bold">${title}</span>` 
                             : ``
                     }
-                    <button @click=${() => this.hide()} class="p-2 ms-auto rounded-full bg-slate-200">
+                    <button @click=${() => this.hide()} class="p-2 ms-auto rounded-full bg-slate-200 dark:bg-gray-400">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                     </button>
                 </div>

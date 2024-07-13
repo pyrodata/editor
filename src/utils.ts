@@ -63,7 +63,7 @@ export const createObserver = () => {
                 if (!node.constructor.prototype.onMount) {
                     continue
                 }
-
+                
                 node.constructor.prototype.onMount.apply(node)
             }
         }

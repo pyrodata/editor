@@ -1,8 +1,8 @@
 import { Editor } from "@tiptap/core";
 import type { MenuItem, PdDropdown } from "./pd-dropdown";
-import { TemplateResult } from "lit-html";
+import type { TemplateResult } from "lit";
 import { PdModal } from "./pd-modal";
-import { pdConfig } from "@/config";
+import { styling } from "@/config";
 
 export class PdButton extends HTMLElement {
     /**
@@ -22,7 +22,7 @@ export class PdButton extends HTMLElement {
      * A `lit html` to render inside a `modal` or `dropdown`
      */
     getTemplate(): string | TemplateResult | MenuItem[] {
-        return ''
+        throw Error('Not implemented')
     }
     /**
      * A callback function that runs when clicking the button
@@ -30,7 +30,11 @@ export class PdButton extends HTMLElement {
      * `modal` and `dropdown` dont have a `onClick` callback
      */
     onClick() {
-        throw Error('Not implemented')
+        if (this.getType() !== 'dropdown' && this.getType() !== 'modal') {
+            return
+        }
+
+        this[this.getType() as 'modal' | 'dropdown'].toggle(this)
     }
     /**
      * Button type, `button`, `dropdown` or `modal`
@@ -67,14 +71,14 @@ export class PdButton extends HTMLElement {
         protected modal: PdModal
     ) { super() }
     
-    onMount() {
+    connectedCallback() {
         /**
          * A rerender trigger in the toolbar will duplicate
          * the content of the button, so we empty it first 
          */
         this.replaceChildren()
         
-        this.setAttribute('class', pdConfig.button.style)
+        this.setAttribute('class', styling.button)
         this.setAttribute('title', this.getTitle())
 
         this.insertAdjacentHTML('beforeend', this.getIcon())
@@ -90,27 +94,18 @@ export class PdButton extends HTMLElement {
              */
             this.insertAdjacentHTML('beforeend', `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>`)
         }
-
-        if (this.getType() === 'modal' || this.getType() === 'dropdown') {
-            this.addEventListener('click', this.toggleCallback)
-        }
-    }
-
-    toggleCallback() {
-        this[this.getType() as 'modal' | 'dropdown'].show(this)
     }
 
     disconnectedCallback() {
         this.removeEventListener('click', this.onClick)
-        this.removeEventListener('click', this.toggleCallback)
     }
 
     setActive() {
-        this.classList.add('bg-gray-50')
+        this.classList.add('active')
     }
 
     setInactive() {
-        this.classList.remove('bg-gray-50')
+        this.classList.remove('active')
     }
 
     toggleActive() {

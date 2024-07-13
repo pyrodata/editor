@@ -17,7 +17,7 @@ import TableRow from '@tiptap/extension-table-row';
 import TableCell from '@tiptap/extension-table-cell';
 import Underline from '@tiptap/extension-underline';
 import Image from '@tiptap/extension-image';
-import { createObserver, registerElement } from './utils';
+import { createObserver, generateElementName, registerElement } from './utils';
 
 export type ToolbarButtonsConfigArray = typeof PdButton[][]
 export type ToolbarButtonsConfigNamed = { [key: string]: typeof PdButton[] }
@@ -101,14 +101,14 @@ export const createEditor = (element: HTMLElement, config: EditorConfig = defaul
 
     for (const name in config.toolbar.buttons) {
         // @ts-ignore
-        toolbar.registerGroup<T>(name, editor, config.toolbar.buttons[name])
+        toolbar.registerGroup(name, editor, config.toolbar.buttons[name])
     }
     
     return editor
 }
 
-export const getDropdown = () => document.querySelector('pd-dropdown') as PdDropdown
+export const getDropdown = () => document.querySelector(generateElementName(PdDropdown.name)) as PdDropdown
     ?? document.body.appendChild(new PdDropdown) as PdDropdown
 
-export const getModal = () => document.querySelector('pd-modal') as PdModal
+export const getModal = () => document.querySelector(generateElementName(PdModal.name)) as PdModal
     ?? document.body.appendChild(new PdModal) as PdModal

@@ -1,121 +1,77 @@
-import StarterKit from "@tiptap/starter-kit";
 import { classNames } from "./utils";
-import Link from "@tiptap/extension-link";
-import type { EditorOptions } from "@tiptap/core";
-import Table from "@tiptap/extension-table";
-import TableHeader from "@tiptap/extension-table-header";
-import TableRow from "@tiptap/extension-table-row";
-import TableCell from "@tiptap/extension-table-cell";
-import Underline from "@tiptap/extension-underline";
 
-export type PdConfig = {
-    editor: {
-        style: string;
-        config: Partial<EditorOptions>;
-    },
-    toolbar: {
-        style: string;
-    },
-    button: {
-        style: string;
-    },
+export type EditorStyling = {
+    editor: string
+    toolbar: string
+    button: string
     modal: {
-        backdrop: {
-            style: string;
-        },
-        dialog: {
-            style: string;
-        }
-    },
+        backdrop: string
+        dialog: string
+    }
     dropdown: {
-        style: string;
-        item: {
-            style: string;
-        }
+        modal: string
+        item: string
     }
 }
 
-export const pdConfig: PdConfig = {
-    editor: {
-        style: classNames(
-            'block',
-            'border border-gray-100 rounded-3xl *:outline-none',
-            'has-[.ProseMirror-focused]:border-black asd',
-            '[&>.ProseMirror]:px-4 [&>.ProseMirror]:py-4'
-        ),
-        config: {
-            extensions: [
-                StarterKit,
-                Link.configure({
-                    openOnClick: false
-                }),
-                Table.configure({
-                    resizable: true,
-                    handleWidth: 10,
-                    lastColumnResizable: true
-                }),
-                TableHeader,
-                TableRow,
-                TableCell,
-                Underline
-            ],
-            content: `
-                <p>Hello World!</p>
-            ` 
-        }
-    },
-    toolbar: {
-        style: classNames(
-            'sticky top-0 z-10 py-2 px-3',
-            'flex items-center',
-            'rounded-ss-3xl rounded-se-3xl',
-            'bg-white'
-        )
-    },
-    button: {
-        style: classNames(
-            'rounded-full p-2',
-            'flex justify-center items-center',
-            'hover:bg-gray-50',
-            'cursor-pointer',
-        )
-    },
+export const styling: EditorStyling = {
+    editor: classNames(
+        'block',
+        'border border-gray-100 rounded-3xl *:outline-none',
+        'has-[.ProseMirror-focused]:border-gray-300',
+        '[&>.ProseMirror]:px-4 [&>.ProseMirror]:py-4',
+        'dark:border-gray-400',
+    ),
+    toolbar: classNames(
+        'sticky top-0 z-10 py-2 px-3',
+        'flex items-center',
+        'rounded-ss-3xl rounded-se-3xl',
+        'bg-white',
+        'dark:bg-gray-400 dark:text-white'
+    ),
+    button: classNames(
+        'rounded-full p-2',
+        'flex justify-center items-center',
+        'cursor-pointer',
+        'hover:bg-gray-50',
+        'dark:hover:bg-gray-300',
+        '[&.active]:bg-gray-50',
+        '[&.active]:dark:bg-gray-300',
+    ),
     modal: {
-        backdrop: {
-            style: classNames(
-                'hidden',
-                'absolute top-0 left-0',
-                'h-screen w-screen',
-                'bg-gray-400 bg-opacity-20',
-                'flex justify-center items-center',
-                'backdrop-blur-[2px]',
-                'z-[9999]'
-            )
-        },
-        dialog: {
-            style: classNames(
-                'bg-white',
-                'min-w-[350px]',
-                'rounded-xl',
-                'shadow-md'
-            )
-        }
+        backdrop: classNames(
+            'hidden',
+            'absolute top-0 left-0',
+            'h-screen w-screen',
+            'bg-gray-400 bg-opacity-20',
+            'flex justify-center items-center',
+            'backdrop-blur-[2px]',
+            'z-[9999]'
+        ),
+        dialog: classNames(
+            'bg-white',
+            'min-w-[350px]',
+            'rounded-xl',
+            'shadow-md',
+            'dark:bg-gray-500 dark:text-white',
+        )
     },
     dropdown: {
-        style: classNames(
+        modal: classNames(
             'hidden',
             'absolute top-0 left-0 z-10',
             'bg-white shadow-md shadow-gray-100',
             'border border-gray-50',
-            'rounded-xl'
+            'rounded-xl',
+            'dark:bg-gray-500 dark:text-white',
+            'dark:border-gray-400 dark:shadow-gray-500'
         ),
-        item: {
-            style: classNames(
-                'py-2 px-4 flex items-center gap-4',
-                'rounded-lg',
-                'hover:bg-slate-200'
-            )
-        }
+        item: classNames(
+            'py-2 px-4 flex items-center gap-4',
+            'w-full rounded-lg',
+            'hover:bg-slate-200',
+            'dark:hover:bg-gray-400'
+        )
     }
 }
 

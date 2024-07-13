@@ -91,7 +91,8 @@ export class PdButtonImage extends PdButton {
                                 'pt-6 pb-2 px-6 peer',
                                 'w-full rounded-full',
                                 'border border-gray-100',
-                                'outline-none'
+                                'outline-none',
+                                'dark:bg-gray-500 dark:border-gray-400'
                             )}
                             required
                             value=${this.valueSrc}
@@ -109,13 +110,14 @@ export class PdButtonImage extends PdButton {
                         >Image URL <span class="text-red-500">*</span></label>
                     </div>
                 </div>
-                <div class="mb-3 flex justify-stretch gap-3">
+                <div class="mb-3 mt-8 flex justify-stretch gap-3">
                     <button 
                         type="button"
                         class=${classNames(
                             'px-6 py-2',
                             'w-full rounded-full',
-                            'bg-slate-200'
+                            'bg-slate-200',
+                            'dark:bg-gray-400'
                         )}
                         @click=${() => this.modal.hide()}
                     >Cancel</button>

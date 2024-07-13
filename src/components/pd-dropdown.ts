@@ -1,8 +1,7 @@
-import type { TemplateResult } from 'lit-html';
 import { autoUpdate, computePosition, type Placement } from '@floating-ui/dom';
-import { html, render } from 'lit';
+import { html, render, type TemplateResult } from 'lit';
 import { PdButton } from './pd-button';
-import { pdConfig } from '@/config';
+import { styling } from '@/config';
 
 export type MenuItem = {
     title: string;
@@ -18,7 +17,7 @@ export class PdDropdown extends HTMLElement {
     #updater?: () => void
 
     connectedCallback() {
-        this.setAttribute('class', pdConfig.dropdown.style)
+        this.setAttribute('class', styling.dropdown.modal)
         /**
          * Hide dropdown on pressing escape
          */
@@ -111,7 +110,7 @@ export class PdDropdown extends HTMLElement {
                     ${(this.#reference.getTemplate() as MenuItem[]).map(item => 
                         html`
                             <li>
-                                <button class="p-2 w-full rounded-lg hover:bg-gray-50" @click=${(e: PointerEvent) => item.action(e, this)}>
+                                <button class=${styling.dropdown.item} @click=${(e: PointerEvent) => item.action(e, this)}>
                                     ${item.icon}
                                 </button>
                             </li>
