@@ -26,3 +26,5 @@ const editor = createEditor(element)
 ```
 
 This code snippet initializes a new editor with the default [configuration](./interfaces/config).
+
+More to follow ...
