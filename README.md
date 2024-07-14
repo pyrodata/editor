@@ -1,19 +1,28 @@
-# WYSIWYG Text editor
+# @pyrodata/editor
 
-A rich text / HTML editor inspired by reddit's editor
+> [!WARNING]  
+> Note that this is still in beta, so expect bugs and breaking changes until we reach v1
 
-## WIP
+This editor is used on the [pyrodata.com](https://pyrodata.com) website to edit posts and pages. 
+It is heavily inspired by the editor used on Reddit.
 
-This is still in WIP stage, the editor is functional.
+## Installation
 
-You can test it by cloning the project and the running it in a dev environment using
+Install the package with the package manager you are using.
 
-```bash
-pnpm run dev
+```bash [npm]
+npm install @pyrodata/editor
 ```
 
-This text editor will be used on the pyrodata.com website to edit pages but also used as the 
-default 'leave a comment' editor.
+## Usage
 
-A guide on how to extend its functionality, like adding custom buttons will be added into 
-using a dedicated documentation page on the pyrodata.com website in a later stage.
+To create a new *editor*, use the `createEditor` method as shown below:
+
+```ts
+import { createEditor } from '@pyrodata/editor'
+
+const element = document.getElementById('editor')
+const editor = createEditor(element)
+```
+
+This code snippet initializes a new editor with the default [configuration](./interfaces/config).
