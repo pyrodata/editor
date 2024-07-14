@@ -1,6 +1,12 @@
 {
     "name": "@pyrodata/editor",
-    "version": "1.0.0-beta.13",
+    "repository": "https://github.com/codeit-ninja/SRT-Support-for-HTML5-videos",
+    "version": "1.0.0-beta.14",
+    "author": {
+        "email": "richard@codeit.ninja",
+        "name": "Richard Mauritz",
+        "url": "https://codeit.ninja"
+    },
     "main": "./dist/index.mjs",
     "type": "module",
     "exports": {
@@ -33,8 +39,8 @@
         "format:scripts": "prettier . --write",
         "format:styles": "stylelint ./**/*.{css,scss} --fix",
         "docs:dev": "vitepress dev ./docs",
-        "docs:build": "vitepress build",
-        "docs:preview": "vitepress preview"
+        "docs:build": "vitepress build ./docs",
+        "docs:preview": "vitepress preview ./docs"
     },
     "devDependencies": {
         "@tailwindcss/typography": "^0.5.13",
