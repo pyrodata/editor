@@ -1,1 +1,0 @@
-import{_ as a,c as s,o as i,a2 as t}from"./chunks/framework.Uz93ESxc.js";const b=JSON.parse('{"title":"@pyrodata/editor","description":"","frontmatter":{},"headers":[],"relativePath":"index.md","filePath":"index.md"}'),e={name:"index.md"},n=t("",10),l=[n];function p(h,d,o,r,k,c){return i(),s("div",null,l)}const u=a(e,[["render",p]]);export{b as __pageData,u as default};
