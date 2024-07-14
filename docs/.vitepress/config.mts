@@ -2,6 +2,7 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+    base: '/editor/',
     title: "Pyrodata RichText Editor",
     description: "Easily extensible RichText editor",
     themeConfig: {
