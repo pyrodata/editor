@@ -20,6 +20,7 @@ To create a new *editor*, use the `createEditor` method as shown below:
 
 ```ts
 import { createEditor } from '@pyrodata/editor'
+import '@pyrodata/editor/dist/style.css'
 
 const element = document.getElementById('editor')
 const editor = createEditor(element)
