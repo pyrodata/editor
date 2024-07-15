@@ -1,6 +1,6 @@
 import { html } from "lit";
 import { PdButton } from "../pd-button";
-import { classNames } from "@/utils";
+import { classNames } from "../../utils";
 import { Ref, createRef, ref } from 'lit/directives/ref.js';
 import type { Editor } from "@tiptap/core";
 import type { PdDropdown } from "../pd-dropdown";
@@ -143,8 +143,16 @@ export class PdButtonLink extends PdButton {
     }
 
     showDropdown() {
-        const reference = document.getSelection()!.anchorNode?.parentElement;
+        const root = this.getRootNode() as ShadowRoot
+        // @ts-ignore
+        let selection: Selection | null = root.getSelection()
 
+        if (!selection) {
+            selection = window.getSelection()
+        }
+        
+        const reference = selection?.anchorNode?.parentElement;
+        
         if (!reference) {
             return this.dropdown.hide()
         }
@@ -154,7 +162,7 @@ export class PdButtonLink extends PdButton {
         }
         
         this.dropdown.renderHTML(html`
-            <div class="px-4 py-2 flex items-center">
+            <div class="px-4 py-1 flex items-center">
                 <a 
                     href=${this.urlValue} 
                     target="_blank" 
@@ -172,7 +180,7 @@ export class PdButtonLink extends PdButton {
                 <button class="p-2 rounded-full hover:bg-slate-200" @click=${() => this.modal.show(this)}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
                 </button>
-            </div>    
+            </div>
         `)
         this.dropdown.show(reference)
     }

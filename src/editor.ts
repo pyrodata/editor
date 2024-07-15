@@ -1,14 +1,9 @@
-import { EditorOptions, Editor as TipTap } from '@tiptap/core'
+import { EditorOptions, mergeDeep, Editor as TipTap } from '@tiptap/core'
 import { PdEditor } from "./components/pd-editor";
+import { PdButton } from './components/pd-button';
 import { PdEditorToolbar } from './components/pd-editor-toolbar';
 import { PdModal } from './components/pd-modal';
 import { PdDropdown } from './components/pd-dropdown';
-import { PdButton } from './components/pd-button';
-import { PdButtonHeading } from './components/buttons/button-heading';
-import { PdButtonBold } from './components/buttons/button-bold';
-import { PdButtonItalic } from './components/buttons/button-italic';
-import { PdButtonUnderline } from './components/buttons/button-underline';
-import { PdButtonStrike } from './components/buttons/button-strikethrough';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
 import Table from '@tiptap/extension-table';
@@ -18,6 +13,18 @@ import TableCell from '@tiptap/extension-table-cell';
 import Underline from '@tiptap/extension-underline';
 import Image from '@tiptap/extension-image';
 import { createObserver, generateElementName, registerElement } from './utils';
+import {
+    PdButtonBold,
+    PdButtonBulletList, 
+    PdButtonHeading, 
+    PdButtonImage, 
+    PdButtonItalic, 
+    PdButtonLink, 
+    PdButtonOrderedList, 
+    PdButtonStrike,
+    PdButtonTable, 
+    PdButtonUnderline
+} from './components/buttons';
 
 export type ToolbarButtonsConfigArray = typeof PdButton[][]
 export type ToolbarButtonsConfigNamed = { [key: string]: typeof PdButton[] }
@@ -40,29 +47,44 @@ export const defaultConfig: EditorConfig = {
                 PdButtonItalic,
                 PdButtonUnderline,
                 PdButtonStrike
+            ],
+            [
+                PdButtonOrderedList,
+                PdButtonBulletList
+            ],
+            [
+                PdButtonTable
+            ],
+            [
+                PdButtonLink,
+                PdButtonImage
             ]
         ]
     },
     tiptap: {
         extensions: [
-            StarterKit,
+            StarterKit.configure({
+                bulletList: {
+                    itemTypeName: 'listItem',
+                    HTMLAttributes: { class: '[&_p]:m-0' }
+                },
+                orderedList: {
+                    HTMLAttributes: { class: '[&_p]:m-0' }
+                }
+            }),
             Link.configure({
                 openOnClick: false
             }),
             Table.configure({
-                resizable: true,
-                handleWidth: 10,
-                lastColumnResizable: true
+                resizable: false,
+                lastColumnResizable: false,
             }),
             TableHeader,
             TableRow,
             TableCell,
             Underline,
             Image
-        ],
-        content: `
-            <p>Hello Worlds!</p>
-        `
+        ]
     }
 }
 
@@ -73,37 +95,38 @@ export const defaultConfig: EditorConfig = {
  * @param config
  * @returns {PdEditor}
  */
-export const createEditor = (element: HTMLElement, config: EditorConfig = defaultConfig) => {
+export const createEditor = (element: HTMLElement, config: Partial<EditorConfig> = defaultConfig) => {
+    config = mergeDeep(config, defaultConfig)
     /**
      * Register custom elements before constructing the editor
      */
     const customElements = [
-        PdEditor, 
-        PdButton, 
-        PdEditorToolbar, 
-        PdModal, 
+        PdEditor,
+        PdButton,
+        PdEditorToolbar,
+        PdModal,
         PdDropdown
     ]
     customElements.forEach(registerElement)
     /**
-     * Create the observer to ensure proper lifecycle hooks are triggered
+     * Create the observer
      */
     createObserver()
 
     const toolbar = new PdEditorToolbar()
     const editor = new PdEditor(toolbar, getDropdown(), getModal())
     const tiptap = new TipTap({ ...config.tiptap, element: editor })
-    
-    element.replaceWith(tiptap.options.element)
 
     editor.prepend(toolbar)
     editor.setEditor(tiptap)
 
-    for (const name in config.toolbar.buttons) {
+    element.replaceWith(editor)
+
+    for (const name in config.toolbar!.buttons) {
         // @ts-ignore
         toolbar.registerGroup(name, editor, config.toolbar.buttons[name])
     }
-    
+
     return editor
 }
 

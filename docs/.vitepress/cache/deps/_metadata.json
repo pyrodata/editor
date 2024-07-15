@@ -2,12 +2,12 @@
   "hash": "b103817b",
   "configHash": "8caeb20f",
   "lockfileHash": "433607fa",
-  "browserHash": "cd60d824",
+  "browserHash": "663cd7f0",
   "optimized": {
     "vue": {
       "src": "../../../../node_modules/.pnpm/vue@3.4.31_typescript@5.5.3/node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "f4178742",
+      "fileHash": "f4ddc6a5",
       "needsInterop": false
     },
     "vitepress > @vue/devtools-api": {
@@ -19,22 +19,100 @@
     "vitepress > @vueuse/core": {
       "src": "../../../../node_modules/.pnpm/@vueuse+core@10.11.0_vue@3.4.31_typescript@5.5.3_/node_modules/@vueuse/core/index.mjs",
       "file": "vitepress___@vueuse_core.js",
-      "fileHash": "b0b20c9f",
+      "fileHash": "0513721d",
       "needsInterop": false
     },
     "@theme/index": {
       "src": "../../../../node_modules/.pnpm/vitepress@1.3.0_@algolia+client-search@4.24.0_@types+node@20.14.10_postcss@8.4.39_search-insi_jik7udxflohqj26ylejxgytahe/node_modules/vitepress/dist/client/theme-default/index.js",
       "file": "@theme_index.js",
-      "fileHash": "3e5e99b8",
+      "fileHash": "cf259243",
+      "needsInterop": false
+    },
+    "@tiptap/core": {
+      "src": "../../../../node_modules/.pnpm/@tiptap+core@2.4.0_@tiptap+pm@2.4.0/node_modules/@tiptap/core/dist/index.js",
+      "file": "@tiptap_core.js",
+      "fileHash": "adbc2651",
+      "needsInterop": false
+    },
+    "@tiptap/starter-kit": {
+      "src": "../../../../node_modules/.pnpm/@tiptap+starter-kit@2.4.0_@tiptap+pm@2.4.0/node_modules/@tiptap/starter-kit/dist/index.js",
+      "file": "@tiptap_starter-kit.js",
+      "fileHash": "e5fcdfd7",
+      "needsInterop": false
+    },
+    "@tiptap/extension-link": {
+      "src": "../../../../node_modules/.pnpm/@tiptap+extension-link@2.4.0_@tiptap+core@2.4.0_@tiptap+pm@2.4.0__@tiptap+pm@2.4.0/node_modules/@tiptap/extension-link/dist/index.js",
+      "file": "@tiptap_extension-link.js",
+      "fileHash": "bfee3e04",
+      "needsInterop": false
+    },
+    "@tiptap/extension-table": {
+      "src": "../../../../node_modules/.pnpm/@tiptap+extension-table@2.4.0_@tiptap+core@2.4.0_@tiptap+pm@2.4.0__@tiptap+pm@2.4.0/node_modules/@tiptap/extension-table/dist/index.js",
+      "file": "@tiptap_extension-table.js",
+      "fileHash": "bf0716d3",
+      "needsInterop": false
+    },
+    "@tiptap/extension-table-header": {
+      "src": "../../../../node_modules/.pnpm/@tiptap+extension-table-header@2.4.0_@tiptap+core@2.4.0_@tiptap+pm@2.4.0_/node_modules/@tiptap/extension-table-header/dist/index.js",
+      "file": "@tiptap_extension-table-header.js",
+      "fileHash": "95bb7283",
+      "needsInterop": false
+    },
+    "@tiptap/extension-table-row": {
+      "src": "../../../../node_modules/.pnpm/@tiptap+extension-table-row@2.4.0_@tiptap+core@2.4.0_@tiptap+pm@2.4.0_/node_modules/@tiptap/extension-table-row/dist/index.js",
+      "file": "@tiptap_extension-table-row.js",
+      "fileHash": "8970e8e7",
+      "needsInterop": false
+    },
+    "@tiptap/extension-table-cell": {
+      "src": "../../../../node_modules/.pnpm/@tiptap+extension-table-cell@2.4.0_@tiptap+core@2.4.0_@tiptap+pm@2.4.0_/node_modules/@tiptap/extension-table-cell/dist/index.js",
+      "file": "@tiptap_extension-table-cell.js",
+      "fileHash": "dea49d20",
+      "needsInterop": false
+    },
+    "@tiptap/extension-underline": {
+      "src": "../../../../node_modules/.pnpm/@tiptap+extension-underline@2.4.0_@tiptap+core@2.4.0_@tiptap+pm@2.4.0_/node_modules/@tiptap/extension-underline/dist/index.js",
+      "file": "@tiptap_extension-underline.js",
+      "fileHash": "1afc73e1",
+      "needsInterop": false
+    },
+    "@tiptap/extension-image": {
+      "src": "../../../../node_modules/.pnpm/@tiptap+extension-image@2.4.0_@tiptap+core@2.4.0_@tiptap+pm@2.4.0_/node_modules/@tiptap/extension-image/dist/index.js",
+      "file": "@tiptap_extension-image.js",
+      "fileHash": "13f25c1c",
+      "needsInterop": false
+    },
+    "lit": {
+      "src": "../../../../node_modules/.pnpm/lit@3.1.4/node_modules/lit/index.js",
+      "file": "lit.js",
+      "fileHash": "a334a769",
+      "needsInterop": false
+    },
+    "@floating-ui/dom": {
+      "src": "../../../../node_modules/.pnpm/@floating-ui+dom@1.6.7/node_modules/@floating-ui/dom/dist/floating-ui.dom.mjs",
+      "file": "@floating-ui_dom.js",
+      "fileHash": "5ce2fd80",
+      "needsInterop": false
+    },
+    "lit/directives/ref.js": {
+      "src": "../../../../node_modules/.pnpm/lit@3.1.4/node_modules/lit/directives/ref.js",
+      "file": "lit_directives_ref__js.js",
+      "fileHash": "2ab04ef6",
       "needsInterop": false
     }
   },
   "chunks": {
+    "chunk-XUWKVYEV": {
+      "file": "chunk-XUWKVYEV.js"
+    },
     "chunk-6CYXHGH5": {
       "file": "chunk-6CYXHGH5.js"
     },
     "chunk-Q5BS67JP": {
       "file": "chunk-Q5BS67JP.js"
+    },
+    "chunk-I4MNMU3G": {
+      "file": "chunk-I4MNMU3G.js"
     }
   }
 }

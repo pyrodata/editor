@@ -2,7 +2,7 @@ import { Editor } from "@tiptap/core";
 import type { MenuItem, PdDropdown } from "./pd-dropdown";
 import type { TemplateResult } from "lit";
 import { PdModal } from "./pd-modal";
-import { styling } from "@/config";
+import { classes } from "../styling";
 
 export class PdButton extends HTMLElement {
     /**
@@ -33,7 +33,7 @@ export class PdButton extends HTMLElement {
         if (this.getType() !== 'dropdown' && this.getType() !== 'modal') {
             return
         }
-
+        
         this[this.getType() as 'modal' | 'dropdown'].toggle(this)
     }
     /**
@@ -78,7 +78,7 @@ export class PdButton extends HTMLElement {
          */
         this.replaceChildren()
         
-        this.setAttribute('class', styling.button)
+        this.setAttribute('class', classes.button)
         this.setAttribute('title', this.getTitle())
 
         this.insertAdjacentHTML('beforeend', this.getIcon())

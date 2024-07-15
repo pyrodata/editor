@@ -1,8 +1,8 @@
-import { styling } from "@/config";
+import { classes } from "../styling";
 import { PdButton } from "./pd-button";
 import { PdEditor } from "./pd-editor";
-import { classNames, createElement, registerElement } from "@/utils";
-import { getDropdown, getModal } from "@/editor";
+import { classNames, createElement, registerElement } from "../utils";
+import { getDropdown, getModal } from "../editor";
 
 export type ButtonGroup = {
     [key: string]: {
@@ -17,7 +17,7 @@ export class PdEditorToolbar extends HTMLElement {
     registeredButtons: {[key: string]: PdButton} = {}
     
     connectedCallback() {
-        this.setAttribute('class', styling.toolbar)
+        this.setAttribute('class', classes.toolbar)
     }
 
     /**

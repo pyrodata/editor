@@ -2,7 +2,7 @@ import { Editor } from "@tiptap/core";
 import { PdEditorToolbar } from "./pd-editor-toolbar";
 import { PdDropdown } from "./pd-dropdown";
 import { PdModal } from "./pd-modal";
-import { styling } from "@/config";
+import { classes } from "../styling";
 
 export class PdEditor extends HTMLElement {
     /**
@@ -34,7 +34,7 @@ export class PdEditor extends HTMLElement {
     ) { super() }
 
     connectedCallback() {
-        this.setAttribute('class', styling.editor)
+        this.setAttribute('class', classes.editor)
     }
 
     setEditor(editor: Editor) {

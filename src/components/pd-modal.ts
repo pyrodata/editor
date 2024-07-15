@@ -1,6 +1,6 @@
 import { html, render, type TemplateResult } from "lit"
 import { PdButton } from "./pd-button";
-import { styling } from "@/config";
+import { classes } from "../styling";
 
 const showEvent = new Event('show')
 const hideEvent = new Event('hide')
@@ -14,7 +14,7 @@ export class PdModal extends HTMLElement {
     constructor() {
         super()
 
-        this.setAttribute('class', styling.modal.backdrop)
+        this.setAttribute('class', classes.modal.backdrop)
         document.addEventListener('keyup', (e) => e.code === 'Escape' && this.hide())
     }
 
@@ -54,7 +54,7 @@ export class PdModal extends HTMLElement {
         }
 
         const template = html`
-            <div  class=${styling.modal.dialog}>
+            <div  class=${classes.modal.dialog}>
                 <div class="p-4 flex items-center">
                     ${
                         title !== '' 

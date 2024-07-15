@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const reference2 = document.getElementById('editor-2') as HTMLDivElement
 
     defaultConfig.tiptap.content = 'TEST'
-    
+
     const test = createEditor(reference, {
         toolbar: {
             buttons: {
@@ -38,6 +38,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     PdButtonItalic,
                     PdButtonUnderline,
                     PdButtonStrike,
+                ],
+                blocks: [
+                    PdButtonImage
                 ]
             }
         },
@@ -63,14 +66,4 @@ document.addEventListener('DOMContentLoaded', () => {
             `
         }
     })
-
-    test.toolbar.registerGroup('lists', test)
-    test.toolbar.registerGroup('table', test)
-    test.toolbar.registerGroup('others', test)
-
-    test.toolbar.addButton('lists', PdButtonOrderedList, test)
-    test.toolbar.addButton('lists', PdButtonBulletList, test)
-    test.toolbar.addButton('table', PdButtonTable, test)
-    test.toolbar.addButton('others', PdButtonLink, test)
-    test.toolbar.addButton('others', PdButtonImage, test)
 })

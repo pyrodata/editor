@@ -1,7 +1,7 @@
 import { autoUpdate, computePosition, type Placement } from '@floating-ui/dom';
 import { html, render, type TemplateResult } from 'lit';
 import { PdButton } from './pd-button';
-import { styling } from '@/config';
+import { classes } from '../styling';
 
 export type MenuItem = {
     title: string;
@@ -17,7 +17,7 @@ export class PdDropdown extends HTMLElement {
     #updater?: () => void
 
     connectedCallback() {
-        this.setAttribute('class', styling.dropdown.modal)
+        this.setAttribute('class', classes.dropdown.modal)
         /**
          * Hide dropdown on pressing escape
          */
@@ -57,7 +57,7 @@ export class PdDropdown extends HTMLElement {
         this.#reference = reference;
         this.classList.remove('hidden')
         this.classList.add('block')
-        
+
         this.#updater = autoUpdate(
             reference,
             this,
@@ -89,9 +89,11 @@ export class PdDropdown extends HTMLElement {
     }
 
     onClickOutside(e: MouseEvent) {
+        //this.#reference?.contains((e.target as HTMLElement).shadowRoot)
         if (
             this.contains((e.target as HTMLElement)) 
             || this.#reference?.contains((e.target as HTMLElement))
+            || (e.target as HTMLElement).shadowRoot?.contains(this.#reference!)
         ) {
             return
         }
@@ -110,7 +112,7 @@ export class PdDropdown extends HTMLElement {
                     ${(this.#reference.getTemplate() as MenuItem[]).map(item => 
                         html`
                             <li>
-                                <button class=${styling.dropdown.item} @click=${(e: PointerEvent) => item.action(e, this)}>
+                                <button class=${classes.dropdown.item} @click=${(e: PointerEvent) => item.action(e, this)}>
                                     ${item.icon}
                                 </button>
                             </li>

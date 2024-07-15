@@ -2,7 +2,7 @@
 
 import { Placement } from '@floating-ui/dom';
 import { Editor, EditorOptions } from '@tiptap/core';
-import { TemplateResult } from 'lit-html';
+import { TemplateResult } from 'lit';
 
 export type MenuItem = {
 	title: string;
@@ -22,7 +22,7 @@ declare class PdDropdown extends HTMLElement {
 	hide(): void;
 	toggle(reference: HTMLElement): void;
 	onClickOutside(e: MouseEvent): void;
-	render(): import("lit-html").RootPart | undefined;
+	render(): import("lit").RootPart | undefined;
 }
 declare class PdModal extends HTMLElement {
 	/**
@@ -94,8 +94,7 @@ declare class PdButton extends HTMLElement {
 	 * Reference to modal element
 	 */
 	modal: PdModal);
-	onMount(): void;
-	toggleCallback(): void;
+	connectedCallback(): void;
 	disconnectedCallback(): void;
 	setActive(): void;
 	setInactive(): void;
@@ -112,7 +111,6 @@ declare class PdEditorToolbar extends HTMLElement {
 	registeredButtons: {
 		[key: string]: PdButton;
 	};
-	constructor();
 	connectedCallback(): void;
 	/**
 	 * Registers and adds a new button to the toolbar
@@ -121,6 +119,12 @@ declare class PdEditorToolbar extends HTMLElement {
 	 * @param editor
 	 */
 	addButton(groupName: keyof ButtonGroup, button: typeof PdButton, editor: PdEditor): void;
+	/**
+	 * Removes a button from the toolbar
+	 *
+	 * @param name      - name of the button to remove
+	 */
+	removeButton(name: string): void;
 	/**
 	 * Register a new group with buttons to the toolbar
 	 *
@@ -140,9 +144,7 @@ declare class PdEditorToolbar extends HTMLElement {
 	 */
 	unregisterGroup(name: string): void;
 	/**
-	 * Rerenders all buttons
-	 *
-	 * Some events requires the toolbar from rerendering, like when you add or remove a button
+	 * Rerenders the toolbar
 	 */
 	rerender(): void;
 }
@@ -191,7 +193,6 @@ declare class PdEditor extends HTMLElement {
 	 */
 	modal: PdModal);
 	connectedCallback(): void;
-	renderedCallback(): void;
 	setEditor(editor: Editor): void;
 	getEditor(): Editor;
 }
@@ -212,7 +213,7 @@ export type EditorConfig = {
  * @param config
  * @returns {PdEditor}
  */
-export declare const createEditor: (element: HTMLElement, config?: EditorConfig) => PdEditor;
+export declare const createEditor: (element: HTMLElement, config?: Partial<EditorConfig>) => PdEditor;
 export declare const getDropdown: () => PdDropdown;
 export declare const getModal: () => PdModal;
 

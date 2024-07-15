@@ -3,6 +3,7 @@ import plugin from 'tailwindcss/plugin';
 import defaultTheme from "tailwindcss/defaultTheme";
 
 export default {
+    darkMode: 'selector',
     content: [
         "./index.html",
         "./src/**/*.{html,js,ts}"
@@ -38,6 +39,20 @@ export default {
                     800: "#0A0A0A",
                     900: "#050505",
                     950: "#030303"
+                },
+                'woodsmoke': {
+                    DEFAULT: '#161618',
+                    50: '#585860',
+                    100: '#54545C',
+                    200: '#4D4D54',
+                    300: '#46464C',
+                    400: '#3E3E44',
+                    500: '#37373C',
+                    600: '#303034',
+                    700: '#28282C',
+                    800: '#212124',
+                    900: '#1A1A1C',
+                    950: '#161618'
                 },
                 // slate: {
                 //     DEFAULT: "#687083",

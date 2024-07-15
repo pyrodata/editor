@@ -1,13 +1,15 @@
 import { html } from "lit";
 import { PdButton } from "../pd-button";
-import { styling } from "@/config";
+import { classes } from "../../styling";
 
 export class PdButtonTable extends PdButton {
     static name = 'pd-button-table'
     
     protected button!: HTMLButtonElement;
 
-    onMount() {
+    connectedCallback() {
+        super.connectedCallback()
+        
         this.editor.on('transaction', () => this.showButton())
         this.button = document.createElement('button')
 
@@ -36,7 +38,16 @@ export class PdButtonTable extends PdButton {
     }
 
     showButton() {
-        let reference = document.getSelection()!.anchorNode?.parentElement;
+        const root = this.getRootNode() as ShadowRoot
+        // @ts-ignore
+        let selection: Selection | null = root.getSelection()
+
+        if (!selection) {
+            selection = window.getSelection()
+        }
+        
+        let reference = selection?.anchorNode?.parentElement;
+
         reference = reference?.closest('td') 
             ? reference.closest('td')
             : reference?.closest('th')
@@ -68,7 +79,7 @@ export class PdButtonTable extends PdButton {
             <div class="flex flex-col min-w-[250px]">
                 <div class="flex flex-col p-2 border-b border-gray-100">
                     <button 
-                        class=${styling.dropdown.item}
+                        class=${classes.dropdown.item}
                         @click=${() => {
                             this.editor.chain().focus().toggleHeaderRow().run()
                         }}
@@ -77,7 +88,7 @@ export class PdButtonTable extends PdButton {
                         <span>Toggle header row</span>
                     </button>
                     <button 
-                        class=${styling.dropdown.item}
+                        class=${classes.dropdown.item}
                         @click=${() => {
                             this.editor.chain().focus().toggleHeaderCell().run()
                         }}
@@ -88,7 +99,7 @@ export class PdButtonTable extends PdButton {
                 </div>
                 <div class="flex flex-col p-2 border-b border-gray-100">
                     <button 
-                        class=${styling.dropdown.item}
+                        class=${classes.dropdown.item}
                         @click=${() => {
                             this.editor.chain().focus().addRowBefore().run()
                         }}
@@ -97,7 +108,7 @@ export class PdButtonTable extends PdButton {
                         <span>Insert row above</span>
                     </button>
                     <button 
-                        class=${styling.dropdown.item}
+                        class=${classes.dropdown.item}
                         @click=${() => {
                             this.editor.chain().focus().addRowAfter().run()
                         }}
@@ -106,7 +117,7 @@ export class PdButtonTable extends PdButton {
                         <span>Insert row below</span>
                     </button>
                     <button 
-                        class=${styling.dropdown.item}
+                        class=${classes.dropdown.item}
                         @click=${() => {
                             this.editor.chain().focus().deleteRow().run()
                         }}
@@ -117,7 +128,7 @@ export class PdButtonTable extends PdButton {
                 </div>
                 <div class="flex flex-col p-2">
                     <button 
-                        class=${styling.dropdown.item}
+                        class=${classes.dropdown.item}
                         @click=${() => {
                             this.editor.chain().focus().addColumnBefore().run()
                         }}
@@ -126,7 +137,7 @@ export class PdButtonTable extends PdButton {
                         <span>Insert column before</span>
                     </button>
                     <button 
-                        class=${styling.dropdown.item}
+                        class=${classes.dropdown.item}
                         @click=${() => {
                             this.editor.chain().focus().addColumnAfter().run()
                         }}
@@ -135,7 +146,7 @@ export class PdButtonTable extends PdButton {
                         <span>Insert column after</span>
                     </button>
                     <button 
-                        class=${styling.dropdown.item}
+                        class=${classes.dropdown.item}
                         @click=${() => {
                             this.editor.chain().focus().deleteRow().run()
                         }}
