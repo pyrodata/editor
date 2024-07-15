@@ -1,8 +1,9 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-import { createEditor } from '../src/'
 
-onMounted( () => {
+onMounted( async () => {
+    const { createEditor } = await import('../src/')
+
     const editorEl = document.getElementById('editor')
     const editor = createEditor(editorEl, {
         tiptap: {
