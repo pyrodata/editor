@@ -60,12 +60,15 @@ export class PdButtonTable extends PdButton {
         }
         
         const { top, left, width } = reference.getBoundingClientRect()
+
+        console.log(reference.getClientRects())
+        console.log(reference.getBoundingClientRect())
         
         this.button.classList.replace('hidden', 'block')
         
-        this.button.style.top = `${top + 3}px`
-        this.button.style.left = `${(width + left) - 38}px`
-
+        this.button.style.top = `${(top + window.scrollY) + 3}px`
+        this.button.style.left = `${(width + left + window.scrollX) - 38}px`
+        
         window.addEventListener('resize', () => {
             const { top, left, width } = reference.getBoundingClientRect()
 
