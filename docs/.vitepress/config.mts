@@ -23,6 +23,8 @@ export default defineConfig({
                 text: 'Interfaces',
                 items: [
                     { text: 'Config', link: '/interfaces/config' },
+                    { text: 'PdButton', link: '/interfaces/pd-button' },
+                    { text: 'PdDropdown', link: '/interfaces/pd-dropdown' },
                 ]
             }
         ],
