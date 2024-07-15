@@ -1,6 +1,6 @@
 import { classNames } from "./utils";
 
-export type EditorStyling = {
+export type EditorClasses = {
     editor: string
     toolbar: string
     button: string
@@ -14,7 +14,7 @@ export type EditorStyling = {
     }
 }
 
-export const classes: EditorStyling = {
+export const classes: EditorClasses = {
     editor: classNames(
         'block overflow-clip',
         'border-2 border-gray-100 rounded-lg *:outline-none',

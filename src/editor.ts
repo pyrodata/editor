@@ -25,6 +25,7 @@ import {
     PdButtonTable, 
     PdButtonUnderline
 } from './components/buttons';
+import { type EditorClasses, classes } from './styling';
 
 export type ToolbarButtonsConfigArray = typeof PdButton[][]
 export type ToolbarButtonsConfigNamed = { [key: string]: typeof PdButton[] }
@@ -33,7 +34,8 @@ export type EditorConfig = {
     tiptap: Partial<EditorOptions>
     toolbar: {
         buttons: ToolbarButtonsConfigArray | ToolbarButtonsConfigNamed
-    }
+    },
+    classes: EditorClasses
 }
 
 export const defaultConfig: EditorConfig = {
@@ -85,7 +87,8 @@ export const defaultConfig: EditorConfig = {
             Underline,
             Image
         ]
-    }
+    },
+    classes
 }
 
 /**
