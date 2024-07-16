@@ -1,9 +1,7 @@
 export {
     createEditor,
     getDropdown,
-    getModal,
-    type ToolbarButtonsConfigArray,
-    type ToolbarButtonsConfigNamed
+    getModal
 } from './editor'
 
 import './style.css'

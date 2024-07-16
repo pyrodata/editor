@@ -1,4 +1,3 @@
-import type { EditorClasses } from './styling';
 import { EditorOptions, mergeDeep } from '@tiptap/core'
 import { PdEditor } from "./components/pd-editor";
 import { PdButton } from './components/pd-button';
@@ -6,7 +5,7 @@ import { PdEditorToolbar } from './components/pd-editor-toolbar';
 import { PdModal } from './components/pd-modal';
 import { PdDropdown } from './components/pd-dropdown';
 import { createObserver, generateElementName, registerElement } from './utils';
-import { defaultConfig } from './config';
+import { defaultConfig, EditorClasses } from './config';
 
 export type ToolbarButtonsConfigNamed = { [key: string]: typeof PdButton[] }
 
@@ -15,7 +14,7 @@ export type EditorConfig = {
     toolbar: {
         buttons: ToolbarButtonsConfigNamed
     }
-    classes: EditorClasses
+    classes: Partial<EditorClasses>
 }
 
 /**

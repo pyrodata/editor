@@ -42,7 +42,7 @@ export class PdEditor extends HTMLElement {
 
     connectedCallback() {
         this.prepend(this.toolbar)
-        this.setAttribute('class', this.config.classes.editor)
+        this.setAttribute('class', this.config.classes.editor!)
 
         this.tiptap.view.dom.setAttribute("spellcheck", "false")
         this.tiptap.view.dom.setAttribute("autocomplete", "false")

@@ -1,6 +1,5 @@
-import { html } from "lit";
-import { PdButton } from "../pd-button";
-import { classes } from "../../styling";
+import { html } from "lit"
+import { PdButton } from "../pd-button"
 
 export class PdButtonTable extends PdButton {
     static name = 'pd-button-table'
@@ -79,7 +78,7 @@ export class PdButtonTable extends PdButton {
             <div class="flex flex-col min-w-[250px]">
                 <div class="flex flex-col p-2 border-b border-gray-100">
                     <button 
-                        class=${classes.dropdown.item}
+                        class=${this.editor.config.classes.dropdown!.item}
                         @click=${() => {
                             this.editor.tiptap.chain().focus().toggleHeaderRow().run()
                         }}
@@ -88,7 +87,7 @@ export class PdButtonTable extends PdButton {
                         <span>Toggle header row</span>
                     </button>
                     <button 
-                        class=${classes.dropdown.item}
+                        class=${this.editor.config.classes.dropdown!.item}
                         @click=${() => {
                             this.editor.tiptap.chain().focus().toggleHeaderCell().run()
                         }}
@@ -99,7 +98,7 @@ export class PdButtonTable extends PdButton {
                 </div>
                 <div class="flex flex-col p-2 border-b border-gray-100">
                     <button 
-                        class=${classes.dropdown.item}
+                        class=${this.editor.config.classes.dropdown!.item}
                         @click=${() => {
                             this.editor.tiptap.chain().focus().addRowBefore().run()
                         }}
@@ -108,7 +107,7 @@ export class PdButtonTable extends PdButton {
                         <span>Insert row above</span>
                     </button>
                     <button 
-                        class=${classes.dropdown.item}
+                        class=${this.editor.config.classes.dropdown!.item}
                         @click=${() => {
                             this.editor.tiptap.chain().focus().addRowAfter().run()
                         }}
@@ -117,7 +116,7 @@ export class PdButtonTable extends PdButton {
                         <span>Insert row below</span>
                     </button>
                     <button 
-                        class=${classes.dropdown.item}
+                        class=${this.editor.config.classes.dropdown!.item}
                         @click=${() => {
                             this.editor.tiptap.chain().focus().deleteRow().run()
                         }}
@@ -128,7 +127,7 @@ export class PdButtonTable extends PdButton {
                 </div>
                 <div class="flex flex-col p-2">
                     <button 
-                        class=${classes.dropdown.item}
+                        class=${this.editor.config.classes.dropdown!.item}
                         @click=${() => {
                             this.editor.tiptap.chain().focus().addColumnBefore().run()
                         }}
@@ -137,7 +136,7 @@ export class PdButtonTable extends PdButton {
                         <span>Insert column before</span>
                     </button>
                     <button 
-                        class=${classes.dropdown.item}
+                        class=${this.editor.config.classes.dropdown!.item}
                         @click=${() => {
                             this.editor.tiptap.chain().focus().addColumnAfter().run()
                         }}
@@ -146,7 +145,7 @@ export class PdButtonTable extends PdButton {
                         <span>Insert column after</span>
                     </button>
                     <button 
-                        class=${classes.dropdown.item}
+                        class=${this.editor.config.classes.dropdown!.item}
                         @click=${() => {
                             this.editor.tiptap.chain().focus().deleteRow().run()
                         }}

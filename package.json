@@ -2,7 +2,7 @@
     "name": "@pyrodata/editor",
     "repository": "https://github.com/pyrodata/editor",
     "homepage": "https://pyrodata.github.io/editor/",
-    "version": "1.0.0-beta.16",
+    "version": "1.0.0-beta.17",
     "author": {
         "email": "richard@codeit.ninja",
         "name": "Richard Mauritz",

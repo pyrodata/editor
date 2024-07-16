@@ -1,7 +1,6 @@
 import type { MenuItem, } from "./pd-dropdown";
 import type { TemplateResult } from "lit";
 import type { PdEditor } from "./pd-editor";
-import { classes } from "../styling";
 
 export class PdButton extends HTMLElement {
     /**
@@ -69,7 +68,7 @@ export class PdButton extends HTMLElement {
          */
         this.replaceChildren()
         
-        this.setAttribute('class', classes.button)
+        this.setAttribute('class', this.editor.config.classes.button!)
         this.setAttribute('title', this.getTitle())
 
         this.insertAdjacentHTML('beforeend', this.getIcon())

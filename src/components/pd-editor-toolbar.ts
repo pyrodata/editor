@@ -1,6 +1,5 @@
 import { PdButton } from "./pd-button";
 import { classNames, createElement, registerElement } from "../utils";
-import { getDropdown, getModal } from "../editor";
 import type { PdEditor } from "./pd-editor";
 
 export type ButtonGroup = {
@@ -18,7 +17,7 @@ export class PdEditorToolbar extends HTMLElement {
     ) { super() }
 
     connectedCallback() {
-        this.setAttribute('class', this.editor.config.classes.toolbar)
+        this.setAttribute('class', this.editor.config.classes.toolbar!)
 
         for (const name in this.editor.config.toolbar.buttons) {
             this.registerGroup(name, this.editor.config.toolbar.buttons[name])

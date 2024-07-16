@@ -4,50 +4,11 @@ import { Placement } from '@floating-ui/dom';
 import { Editor, EditorOptions } from '@tiptap/core';
 import { TemplateResult } from 'lit';
 
-export type MenuItem = {
-	title: string;
-	icon: TemplateResult;
-	action: (e: PointerEvent, dropdown: PdDropdown) => void;
-};
-declare class PdDropdown extends HTMLElement {
-	#private;
-	connectedCallback(): void;
-	disconnectCallback(): void;
-	setPlacement(placement: Placement): void;
-	getPlacement(): Placement;
-	getReference(): HTMLElement | PdButton | undefined;
-	renderHTML(html: TemplateResult): void;
-	updatePosition(): Promise<void>;
-	show(reference: HTMLElement): Promise<void>;
-	hide(): void;
-	toggle(reference: HTMLElement): void;
-	onClickOutside(e: MouseEvent): void;
-	render(): import("lit").RootPart | undefined;
-}
-declare class PdModal extends HTMLElement {
-	/**
-	 * A reference to the element that activated the modal
-	 */
-	protected reference?: HTMLElement | PdButton;
-	constructor();
-	show(reference: HTMLElement | PdButton): void;
-	hide(): void;
-	toggle(reference: HTMLElement | PdButton): void;
-	render(): void;
-}
 declare class PdButton extends HTMLElement {
 	/**
 	 * Reference to TipTap editor
 	 */
-	protected editor: Editor;
-	/**
-	 * Reference to dropdown element
-	 */
-	protected dropdown: PdDropdown;
-	/**
-	 * Reference to modal element
-	 */
-	protected modal: PdModal;
+	protected editor: PdEditor;
 	/**
 	 * Button icon https://lucide.dev/icons/
 	 */
@@ -85,20 +46,43 @@ declare class PdButton extends HTMLElement {
 	/**
 	 * Reference to TipTap editor
 	 */
-	editor: Editor, 
-	/**
-	 * Reference to dropdown element
-	 */
-	dropdown: PdDropdown, 
-	/**
-	 * Reference to modal element
-	 */
-	modal: PdModal);
+	editor: PdEditor);
 	connectedCallback(): void;
 	disconnectedCallback(): void;
 	setActive(): void;
 	setInactive(): void;
 	toggleActive(): void;
+}
+export type MenuItem = {
+	title: string;
+	icon: TemplateResult;
+	action: (e: PointerEvent, dropdown: PdDropdown) => void;
+};
+declare class PdDropdown extends HTMLElement {
+	#private;
+	connectedCallback(): void;
+	disconnectCallback(): void;
+	setPlacement(placement: Placement): void;
+	getPlacement(): Placement;
+	getReference(): HTMLElement | PdButton | undefined;
+	renderHTML(html: TemplateResult): void;
+	updatePosition(): Promise<void>;
+	show(reference: HTMLElement): Promise<void>;
+	hide(): void;
+	toggle(reference: HTMLElement): void;
+	onClickOutside(e: MouseEvent): void;
+	render(): import("lit").RootPart | undefined;
+}
+declare class PdModal extends HTMLElement {
+	/**
+	 * A reference to the element that activated the modal
+	 */
+	protected reference?: HTMLElement | PdButton;
+	constructor();
+	show(reference: HTMLElement | PdButton): void;
+	hide(): void;
+	toggle(reference: HTMLElement | PdButton): void;
+	render(): void;
 }
 export type ButtonGroup = {
 	[key: string]: {
@@ -107,10 +91,9 @@ export type ButtonGroup = {
 	};
 };
 declare class PdEditorToolbar extends HTMLElement {
+	readonly editor: PdEditor;
 	groups: ButtonGroup;
-	registeredButtons: {
-		[key: string]: PdButton;
-	};
+	constructor(editor: PdEditor);
 	connectedCallback(): void;
 	/**
 	 * Registers and adds a new button to the toolbar
@@ -118,7 +101,7 @@ declare class PdEditorToolbar extends HTMLElement {
 	 * @param button
 	 * @param editor
 	 */
-	addButton(groupName: keyof ButtonGroup, button: typeof PdButton, editor: PdEditor): void;
+	addButton(groupName: keyof ButtonGroup, button: typeof PdButton): void;
 	/**
 	 * Removes a button from the toolbar
 	 *
@@ -134,7 +117,7 @@ declare class PdEditorToolbar extends HTMLElement {
 	 * @param editor
 	 * @param buttons
 	 */
-	registerGroup(name: string, editor: PdEditor, buttons?: typeof PdButton[]): void;
+	registerGroup(name: string, buttons?: typeof PdButton[]): void;
 	/**
 	 * Removes a group from the toolbar
 	 *
@@ -145,75 +128,67 @@ declare class PdEditorToolbar extends HTMLElement {
 	unregisterGroup(name: string): void;
 	/**
 	 * Rerenders the toolbar
+	 *
+	 * @deprecated
 	 */
 	rerender(): void;
 }
 declare class PdEditor extends HTMLElement {
+	readonly config: EditorConfig;
 	/**
-	 * Reference to PdEditorToolbar
+	 * The Tiptap editor instance used for text editing.
 	 *
-	 * @type {PdEditorToolbar}
+	 * @readonly {Editor}
+	 */
+	readonly tiptap: Editor;
+	/**
+	 * The toolbar component for text formatting options.
+	 *
+	 * @readonly {PdEditorToolbar}
 	 */
 	readonly toolbar: PdEditorToolbar;
 	/**
-	 * Reference to PdDropdown
-	 *
-	 * @type {PdDropdown}
+	 * Reference to dropdown element
 	 */
 	readonly dropdown: PdDropdown;
 	/**
-	 * Reference to PdModal
-	 *
-	 * @type {PdModal}
+	 * Reference to modal element
 	 */
 	readonly modal: PdModal;
-	/**
-	 * Reference to TipTap editor
-	 *
-	 * @type {Editor}
-	 */
-	protected editor: Editor;
-	constructor(
-	/**
-	 * Reference to PdEditorToolbar
-	 *
-	 * @type {PdEditorToolbar}
-	 */
-	toolbar: PdEditorToolbar, 
-	/**
-	 * Reference to PdDropdown
-	 *
-	 * @type {PdDropdown}
-	 */
-	dropdown: PdDropdown, 
-	/**
-	 * Reference to PdModal
-	 *
-	 * @type {PdModal}
-	 */
-	modal: PdModal);
+	constructor(element: HTMLElement, config: EditorConfig);
 	connectedCallback(): void;
-	setEditor(editor: Editor): void;
-	getEditor(): Editor;
 }
-export type ToolbarButtonsConfigArray = typeof PdButton[][];
+export type EditorClasses = {
+	editor: string;
+	toolbar: string;
+	button: string;
+	modal: {
+		backdrop: string;
+		dialog: string;
+	};
+	dropdown: {
+		modal: string;
+		item: string;
+	};
+};
 export type ToolbarButtonsConfigNamed = {
 	[key: string]: typeof PdButton[];
 };
 export type EditorConfig = {
 	tiptap: Partial<EditorOptions>;
 	toolbar: {
-		buttons: ToolbarButtonsConfigArray | ToolbarButtonsConfigNamed;
+		buttons: ToolbarButtonsConfigNamed;
 	};
+	classes: Partial<EditorClasses>;
 };
 /**
  * Create a new editor instance
  *
  * @param element   - Element which will be replaced with the editor
- * @param config
+ * @param options
  * @returns {PdEditor}
  */
-export declare const createEditor: (element: HTMLElement, config?: Partial<EditorConfig>) => PdEditor;
+export declare const createEditor: (element: HTMLElement, options?: Partial<EditorConfig>) => PdEditor;
 export declare const getDropdown: () => PdDropdown;
 export declare const getModal: () => PdModal;
 
