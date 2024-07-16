@@ -17,15 +17,9 @@ interface EditorConfig {
      */
     toolbar: {
         /**
-         * Array with buttons or an object 
-         * with named keys containing array with buttons
-         * 
-         * Named button groups is recommended to access groups 
-         * by name later on to create or remove buttons
+         * Named groups with buttons
          */
-        buttons: 
-            typeof PdButton[][]
-            | { [key: string]: typeof PdButton[] }
+        buttons: { [key: string]: typeof PdButton[] }
     }
 }
 ```

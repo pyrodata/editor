@@ -60,9 +60,6 @@ export class PdButtonTable extends PdButton {
         }
         
         const { top, left, width } = reference.getBoundingClientRect()
-
-        console.log(reference.getClientRects())
-        console.log(reference.getBoundingClientRect())
         
         this.button.classList.replace('hidden', 'block')
         

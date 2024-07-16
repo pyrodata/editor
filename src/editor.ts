@@ -4,6 +4,7 @@ import { PdButton } from './components/pd-button';
 import { PdEditorToolbar } from './components/pd-editor-toolbar';
 import { PdModal } from './components/pd-modal';
 import { PdDropdown } from './components/pd-dropdown';
+import { createLowlight, common } from 'lowlight'
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
 import Table from '@tiptap/extension-table';
@@ -26,42 +27,54 @@ import {
     PdButtonUnderline
 } from './components/buttons';
 import { type EditorClasses, classes } from './styling';
+import { PdButtonCode } from './components/buttons/button-code';
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
+import { PdButtonCodeBlock } from './components/buttons/button-code-block';
 
-export type ToolbarButtonsConfigArray = typeof PdButton[][]
 export type ToolbarButtonsConfigNamed = { [key: string]: typeof PdButton[] }
 
 export type EditorConfig = {
     tiptap: Partial<EditorOptions>
+    editor: {
+        codeHighlighting: boolean
+    }
     toolbar: {
-        buttons: ToolbarButtonsConfigArray | ToolbarButtonsConfigNamed
-    },
+        buttons: ToolbarButtonsConfigNamed
+    }
     classes: EditorClasses
 }
 
+export const lowlight = createLowlight(common)
+
 export const defaultConfig: EditorConfig = {
     toolbar: {
-        buttons: [
-            [
+        buttons: {
+            heading: [
                 PdButtonHeading
             ],
-            [
+            format: [
                 PdButtonBold,
                 PdButtonItalic,
                 PdButtonUnderline,
-                PdButtonStrike
+                PdButtonStrike,
+                PdButtonCode
             ],
-            [
+            lists: [
                 PdButtonOrderedList,
                 PdButtonBulletList
             ],
-            [
+            table: [
                 PdButtonTable
             ],
-            [
+            blocks: [
                 PdButtonLink,
-                PdButtonImage
+                PdButtonImage,
+                PdButtonCodeBlock,
             ]
-        ]
+        }
+    },
+    editor: {
+        codeHighlighting: true
     },
     tiptap: {
         extensions: [
@@ -72,10 +85,14 @@ export const defaultConfig: EditorConfig = {
                 },
                 orderedList: {
                     HTMLAttributes: { class: '[&_p]:m-0' }
-                }
+                },
+                codeBlock: false
             }),
             Link.configure({
                 openOnClick: false
+            }),
+            CodeBlockLowlight.configure({
+                lowlight,
             }),
             Table.configure({
                 resizable: false,
@@ -99,7 +116,13 @@ export const defaultConfig: EditorConfig = {
  * @returns {PdEditor}
  */
 export const createEditor = (element: HTMLElement, config: Partial<EditorConfig> = defaultConfig) => {
-    config = mergeDeep(config, defaultConfig)
+    if (config.toolbar?.buttons) {
+        defaultConfig.toolbar.buttons = {}
+    }
+
+    config = mergeDeep(defaultConfig, config)
+
+    console.log(config)
     /**
      * Register custom elements before constructing the editor
      */
@@ -125,10 +148,16 @@ export const createEditor = (element: HTMLElement, config: Partial<EditorConfig>
 
     element.replaceWith(editor)
 
+    tiptap.view.dom.setAttribute("spellcheck", "false")
+    tiptap.view.dom.setAttribute("autocomplete", "false")
+    tiptap.view.dom.setAttribute("autocapitalize", "false")
+
     for (const name in config.toolbar!.buttons) {
         // @ts-ignore
         toolbar.registerGroup(name, editor, config.toolbar.buttons[name])
     }
+
+    console.log(document.adoptedStyleSheets)
 
     return editor
 }

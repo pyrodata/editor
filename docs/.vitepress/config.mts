@@ -16,6 +16,7 @@ export default defineConfig({
                 text: 'Advanced usage',
                 items: [
                     { text: 'Create a custom button', link: '/advanced-usage/create-a-custom-button' },
+                    { text: 'Code highlighting', link: '/advanced-usage/code-highlighting' },
                 ],
             },
             {

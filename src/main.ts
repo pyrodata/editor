@@ -12,6 +12,8 @@ import { PdButtonLink } from './components/buttons/button-link'
 import { PdButtonTable } from './components/buttons/button-table'
 import { PdButtonOrderedList } from './components/buttons/button-ordered-list'
 import { PdButtonBulletList } from './components/buttons/button-bullet-list'
+import { PdButtonCode } from './components/buttons/button-code'
+import { PdButtonCodeBlock } from './components/buttons/button-code-block'
 
 import { createEditor, defaultConfig } from './editor'
 import Link from '@tiptap/extension-link'
@@ -20,6 +22,7 @@ import TableHeader from '@tiptap/extension-table-header'
 import TableRow from '@tiptap/extension-table-row'
 import TableCell from '@tiptap/extension-table-cell'
 import Underline from '@tiptap/extension-underline'
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 
 document.addEventListener('DOMContentLoaded', () => {
     const reference = document.getElementById('editor') as HTMLDivElement
@@ -38,29 +41,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     PdButtonItalic,
                     PdButtonUnderline,
                     PdButtonStrike,
+                    PdButtonCode,
+                ],
+                lists: [
+                    PdButtonOrderedList,
+                    PdButtonBulletList
+                ],
+                table: [
+                    PdButtonTable
                 ],
                 blocks: [
-                    PdButtonImage
+                    PdButtonLink,
+                    PdButtonImage,
+                    PdButtonCodeBlock,
                 ]
             }
         },
         tiptap: {
-            extensions: [
-                StarterKit,
-                Link.configure({
-                    openOnClick: false
-                }),
-                Table.configure({
-                    resizable: true,
-                    handleWidth: 10,
-                    lastColumnResizable: true
-                }),
-                TableHeader,
-                TableRow,
-                TableCell,
-                Underline,
-                Image
-            ],
             content: `
                 <p>Hello World!</p>
             `
