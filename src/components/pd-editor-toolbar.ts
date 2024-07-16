@@ -1,8 +1,7 @@
-import { classes } from "../styling";
 import { PdButton } from "./pd-button";
-import { PdEditor } from "./pd-editor";
 import { classNames, createElement, registerElement } from "../utils";
 import { getDropdown, getModal } from "../editor";
+import type { PdEditor } from "./pd-editor";
 
 export type ButtonGroup = {
     [key: string]: {
@@ -13,11 +12,17 @@ export type ButtonGroup = {
 
 export class PdEditorToolbar extends HTMLElement {
     groups: ButtonGroup = {}
-
-    registeredButtons: {[key: string]: PdButton} = {}
     
+    constructor(
+        readonly editor: PdEditor
+    ) { super() }
+
     connectedCallback() {
-        this.setAttribute('class', classes.toolbar)
+        this.setAttribute('class', this.editor.config.classes.toolbar)
+
+        for (const name in this.editor.config.toolbar.buttons) {
+            this.registerGroup(name, this.editor.config.toolbar.buttons[name])
+        }
     }
 
     /**
@@ -26,7 +31,7 @@ export class PdEditorToolbar extends HTMLElement {
      * @param button 
      * @param editor 
      */
-    addButton(groupName: keyof ButtonGroup, button: typeof PdButton, editor: PdEditor) {
+    addButton(groupName: keyof ButtonGroup, button: typeof PdButton) {
         if (!this.groups[groupName]) {
             throw new Error(`The group named '${groupName}' does not exist. Please ensure you have spelled the group name correctly or verify that a group with this name has been registered.`)
         }
@@ -34,11 +39,7 @@ export class PdEditorToolbar extends HTMLElement {
         registerElement(button)
 
         const group = this.groups[groupName]
-        const btn = new button(
-            editor.getEditor(),
-            getDropdown(),
-            getModal()
-        )
+        const btn = new button(this.editor)
 
         group.buttons.push(btn)
         group.el.append(btn)
@@ -62,7 +63,7 @@ export class PdEditorToolbar extends HTMLElement {
      * @param editor 
      * @param buttons 
      */
-    registerGroup(name: string, editor: PdEditor, buttons: typeof PdButton[] = []) {
+    registerGroup(name: string, buttons: typeof PdButton[] = []) {
         /**
          * We cannot overwrite existing groups
          * If we want to do so we need to unregisterGroup first
@@ -85,7 +86,7 @@ export class PdEditorToolbar extends HTMLElement {
             el: groupEl,
             buttons: []
         }
-        buttons.forEach(button => this.addButton(name, button, editor))
+        buttons.forEach(button => this.addButton(name, button))
 
         this.append(this.groups[name].el)
     }
@@ -104,6 +105,8 @@ export class PdEditorToolbar extends HTMLElement {
 
     /**
      * Rerenders the toolbar
+     * 
+     * @deprecated
      */
     rerender() {
         this.replaceChildren()

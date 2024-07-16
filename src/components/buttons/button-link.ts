@@ -2,20 +2,18 @@ import { html } from "lit";
 import { PdButton } from "../pd-button";
 import { classNames } from "../../utils";
 import { Ref, createRef, ref } from 'lit/directives/ref.js';
-import type { Editor } from "@tiptap/core";
-import type { PdDropdown } from "../pd-dropdown";
-import type { PdModal } from "../pd-modal";
+import type { PdEditor } from "../pd-editor";
 
 export class PdButtonLink extends PdButton {
     static name = 'pd-button-link'
     
     formRef: Ref<HTMLFormElement> = createRef()
 
-    constructor(editor: Editor, dropdown: PdDropdown, modal: PdModal) { 
-        super(editor, dropdown, modal)
+    constructor(editor: PdEditor) { 
+        super(editor)
 
-        this.modal.addEventListener('hide', () => this.formRef.value?.reset())
-        this.editor.on('transaction', () => this.showDropdown())
+        this.editor.modal.addEventListener('hide', () => this.formRef.value?.reset())
+        this.editor.tiptap.on('transaction', () => this.showDropdown())
     }
     
     getType() {
@@ -31,7 +29,7 @@ export class PdButtonLink extends PdButton {
     }
 
     isActive() {
-        return this.editor.isActive('link')
+        return this.editor.tiptap.isActive('link')
     }
 
     setLink(e: SubmitEvent) {
@@ -41,18 +39,18 @@ export class PdButtonLink extends PdButton {
         const text = formData.get('text') as string
         const url = formData.get('url') as string
 
-        this.editor.chain()
+        this.editor.tiptap.chain()
             .focus()
             .setLink({ href: url })
             .insertContent(text.trim())
             .focus()
             .run()
         
-        this.modal.hide()
+        this.editor.modal.hide()
     }
 
     unsetLink() {
-        this.editor
+        this.editor.tiptap
             .chain()
             .focus()
             .unsetLink()
@@ -127,7 +125,7 @@ export class PdButtonLink extends PdButton {
                             'bg-slate-200',
                             'dark:bg-gray-400'
                         )}
-                        @click=${() => this.modal.hide()}
+                        @click=${() => this.editor.modal.hide()}
                     >Cancel</button>
                     <button 
                         type="submit"
@@ -154,14 +152,14 @@ export class PdButtonLink extends PdButton {
         const reference = selection?.anchorNode?.parentElement;
         
         if (!reference) {
-            return this.dropdown.hide()
+            return this.editor.dropdown.hide()
         }
 
         if (reference.closest('a')?.tagName !== 'A') {
-            return this.dropdown.hide()
+            return this.editor.dropdown.hide()
         }
         
-        this.dropdown.renderHTML(html`
+        this.editor.dropdown.renderHTML(html`
             <div class="px-4 py-1 flex items-center">
                 <a 
                     href=${this.urlValue} 
@@ -177,24 +175,24 @@ export class PdButtonLink extends PdButton {
                 <button class="p-2 rounded-full hover:bg-slate-200" @click=${() => this.unsetLink()}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-unlink"><path d="m18.84 12.25 1.72-1.71h-.02a5.004 5.004 0 0 0-.12-7.07 5.006 5.006 0 0 0-6.95 0l-1.72 1.71"/><path d="m5.17 11.75-1.71 1.71a5.004 5.004 0 0 0 .12 7.07 5.006 5.006 0 0 0 6.95 0l1.71-1.71"/><line x1="8" x2="8" y1="2" y2="5"/><line x1="2" x2="5" y1="8" y2="8"/><line x1="16" x2="16" y1="19" y2="22"/><line x1="19" x2="22" y1="16" y2="16"/></svg>
                 </button>
-                <button class="p-2 rounded-full hover:bg-slate-200" @click=${() => this.modal.show(this)}>
+                <button class="p-2 rounded-full hover:bg-slate-200" @click=${() => this.editor.modal.show(this)}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
                 </button>
             </div>
         `)
-        this.dropdown.show(reference)
+        this.editor.dropdown.show(reference)
     }
 
     get textValue() {
         if (this.isActive()) {
-            this.editor
+            this.editor.tiptap
                 .chain()
                 .focus()
                 .extendMarkRange('link')
                 .run()
         }
 
-        const { view, state } = this.editor
+        const { view, state } = this.editor.tiptap
         const { from, to } = view.state.selection
 
         return state.doc.textBetween(from, to, '')
@@ -205,6 +203,6 @@ export class PdButtonLink extends PdButton {
             return '';
         }
 
-        return this.editor.getAttributes('link').href;
+        return this.editor.tiptap.getAttributes('link').href;
     }
 }

@@ -93,7 +93,7 @@ export class PdButtonImage extends PdButton {
      * @required
      */
     isActive() {
-        return this.editor.isActive('image')
+        return this.editor.tiptap.isActive('image')
     }
 }
 ```
@@ -144,7 +144,7 @@ export class PdButtonImage extends PdButton {
         const formData = new FormData((e.target as HTMLFormElement))
         const src = formData.get('src') as string
 
-        this.editor.chain().focus().setImage({ src }).run()
+        this.editor.tiptap.chain().focus().setImage({ src }).run()
         this.modal.hide()
 
         // Reset the form after  submit
@@ -288,7 +288,7 @@ export class PdButtonImage extends PdButton {
      * @required
      */
     isActive() {
-        return this.editor.isActive('image')
+        return this.editor.tiptap.isActive('image')
     }
 
     /**
@@ -300,7 +300,7 @@ export class PdButtonImage extends PdButton {
         const formData = new FormData((e.target as HTMLFormElement))
         const src = formData.get('src') as string
 
-        this.editor.chain().focus().setImage({ src }).run()
+        this.editor.tiptap.chain().focus().setImage({ src }).run()
         this.modal.hide()
         this.formRef.value?.reset()
     }

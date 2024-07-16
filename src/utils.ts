@@ -1,20 +1,39 @@
 let observer: MutationObserver;
 
-export const classNames = (...classNames: string[]) => classNames.join(' ');
+/**
+ * Joins multiple class names into a single string separated by spaces.
+ * 
+ * @param {...string[]} classNames - The class names to join.
+ * @returns {string}
+ */
+export const classNames = (...classNames: string[]): string => classNames.join(' ');
 
-export const createElement = (tagName: keyof HTMLElementTagNameMap | string, attrs?: { [key: string]: string }) => {
-    const element = document.createElement(tagName)
+/**
+ * Creates an HTML element with the specified tag name and attributes.
+ * 
+ * @param {keyof HTMLElementTagNameMap | string} tagName - The tag name of the element to create.
+ * @param {{ [key: string]: string }} [attrs] - Optional attributes to set on the element.
+ * @returns {HTMLElement} - The created HTML element.
+ */
+export const createElement = (tagName: keyof HTMLElementTagNameMap | string, attrs?: { [key: string]: string }): HTMLElement => {
+    const element = document.createElement(tagName);
 
     if (attrs) {
         for (const attr of Object.keys(attrs)) {
-            element.setAttribute(attr, attrs[attr])
+            element.setAttribute(attr, attrs[attr]);
         }
     }
 
-    return element
+    return element;
 }
 
-export const generateElementName = (input: string) => {
+/**
+ * Generates a deterministic unique element name based on the input string.
+ * 
+ * @param {string} input - The input string to generate the element name from.
+ * @returns {string}
+ */
+export const generateElementName = (input: string): string => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
     // Hash the input string to produce a deterministic number
@@ -33,41 +52,56 @@ export const generateElementName = (input: string) => {
         result = characters.charAt(num % charactersLength) + result;
         num = Math.floor(num / charactersLength);
     }
-    
+
     // If the result is empty (e.g., hash was 0), return the first character
-    return 'pd-' + result.toLowerCase() || characters.charAt(0).toLowerCase();
+    return 'pd-' + (result.toLowerCase() || characters.charAt(0).toLowerCase());
 }
 
-export const registerElement = (constructor: CustomElementConstructor) => {
-    const name = generateElementName(constructor.name)
+/**
+ * Registers a custom element with a generated name based on the constructor's name.
+ * 
+ * @param {CustomElementConstructor} constructor - The constructor of the custom element to register.
+ */
+export const registerElement = (constructor: CustomElementConstructor): void => {
+    const name = generateElementName(constructor.name);
 
     if (!customElements.get(name)) {
-        customElements.define(name, constructor)
+        customElements.define(name, constructor);
     }
 }
 
-export const kebabCase = (str: string) => str.replace(/[A-Z]+(?![a-z])|[A-Z]/g, ($, ofs) => (ofs ? "-" : "") + $.toLowerCase())
+/**
+ * Converts a string to kebab-case (lowercase words separated by hyphens).
+ * 
+ * @param {string} str - The string to convert.
+ * @returns {string}
+ */
+export const kebabCase = (str: string): string => 
+    str.replace(/[A-Z]+(?![a-z])|[A-Z]/g, ($, ofs) => (ofs ? "-" : "") + $.toLowerCase());
 
-export const createObserver = () => {
+/**
+ * Creates a mutation observer to detect added nodes and call their `onMount` method if it exists.
+ */
+export const createObserver = (): void => {
     if (observer) {
-        return
+        return;
     }
 
     observer = new MutationObserver(mutations => {
         for (const mutation of mutations) {
             if (mutation.type !== 'childList') {
-                continue
+                continue;
             }
 
             for (let node of mutation.addedNodes) {
                 if (!node.constructor.prototype.onMount) {
-                    continue
+                    continue;
                 }
-                
-                node.constructor.prototype.onMount.apply(node)
+
+                node.constructor.prototype.onMount.apply(node);
             }
         }
-    })
+    });
 
-    observer.observe(document, { childList: true, subtree: true })
+    observer.observe(document, { childList: true, subtree: true });
 }

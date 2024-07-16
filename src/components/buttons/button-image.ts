@@ -55,7 +55,7 @@ export class PdButtonImage extends PdButton {
      * @required
      */
     isActive() {
-        return this.editor.isActive('image')
+        return this.editor.tiptap.isActive('image')
     }
 
     /**
@@ -67,8 +67,8 @@ export class PdButtonImage extends PdButton {
         const formData = new FormData((e.target as HTMLFormElement))
         const src = formData.get('src') as string
         // @ts-ignore
-        this.editor.chain().focus().setImage({ src }).run()
-        this.modal.hide()
+        this.editor.tiptap.chain().focus().setImage({ src }).run()
+        this.editor.modal.hide()
         this.formRef.value?.reset()
     }
 
@@ -119,7 +119,7 @@ export class PdButtonImage extends PdButton {
                             'bg-slate-200',
                             'dark:bg-gray-400'
                         )}
-                        @click=${() => this.modal.hide()}
+                        @click=${() => this.editor.modal.hide()}
                     >Cancel</button>
                     <button 
                         type="submit"
@@ -144,6 +144,6 @@ export class PdButtonImage extends PdButton {
             return '';
         }
 
-        return this.editor.getAttributes('image').src;
+        return this.editor.tiptap.getAttributes('image').src;
     }
 }

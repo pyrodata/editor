@@ -1,47 +1,51 @@
+import type { PdDropdown } from "./pd-dropdown";
+import type { PdModal } from "./pd-modal";
 import { Editor } from "@tiptap/core";
+import { EditorConfig, getDropdown, getModal } from "../editor";
 import { PdEditorToolbar } from "./pd-editor-toolbar";
-import { PdDropdown } from "./pd-dropdown";
-import { PdModal } from "./pd-modal";
-import { classes } from "../styling";
 
 export class PdEditor extends HTMLElement {
-    /**
-     * Reference to TipTap editor
+    readonly config: EditorConfig
+    /** 
+     * The Tiptap editor instance used for text editing.
      * 
-     * @type {Editor}
+     * @readonly {Editor}
      */
-    protected editor!: Editor
+    readonly tiptap: Editor
+    /** 
+     * The toolbar component for text formatting options.
+     * 
+     * @readonly {PdEditorToolbar} 
+     */
+    readonly toolbar: PdEditorToolbar
+    /**
+     * Reference to dropdown element
+     */
+    readonly dropdown: PdDropdown
+    /**
+     * Reference to modal element
+     */
+    readonly modal: PdModal
 
-    constructor(
-        /**
-         * Reference to PdEditorToolbar
-         * 
-         * @type {PdEditorToolbar}
-         */
-        readonly toolbar: PdEditorToolbar,
-        /**
-         * Reference to PdDropdown
-         * 
-         * @type {PdDropdown}
-         */
-        readonly dropdown: PdDropdown,
-        /**
-         * Reference to PdModal
-         * 
-         * @type {PdModal}
-         */
-        readonly modal: PdModal,
-    ) { super() }
+    constructor(element: HTMLElement, config: EditorConfig) { 
+        super()
+
+        this.config = config
+        this.tiptap = new Editor({ ...config.tiptap, element: this })
+        this.toolbar = new PdEditorToolbar(this)
+
+        this.dropdown = getDropdown()
+        this.modal = getModal()
+        
+        element.replaceWith(this)
+    }
 
     connectedCallback() {
-        this.setAttribute('class', classes.editor)
-    }
+        this.prepend(this.toolbar)
+        this.setAttribute('class', this.config.classes.editor)
 
-    setEditor(editor: Editor) {
-        this.editor = editor;
-    }
-
-    getEditor() {
-        return this.editor;
+        this.tiptap.view.dom.setAttribute("spellcheck", "false")
+        this.tiptap.view.dom.setAttribute("autocomplete", "false")
+        this.tiptap.view.dom.setAttribute("autocapitalize", "false")
     }
 }

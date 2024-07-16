@@ -10,7 +10,7 @@ export class PdButtonTable extends PdButton {
     connectedCallback() {
         super.connectedCallback()
         
-        this.editor.on('transaction', () => this.showButton())
+        this.editor.tiptap.on('transaction', () => this.showButton())
         this.button = document.createElement('button')
 
         this.button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ellipsis-vertical"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>`
@@ -30,11 +30,11 @@ export class PdButtonTable extends PdButton {
     }
 
     onClick(): void {
-        this.editor.chain().focus().insertTable({ cols: 2, rows: 2 }).run()
+        this.editor.tiptap.chain().focus().insertTable({ cols: 2, rows: 2 }).run()
     }
 
     isActive() {
-        return this.editor.isActive('table');
+        return this.editor.tiptap.isActive('table');
     }
 
     showButton() {
@@ -75,13 +75,13 @@ export class PdButtonTable extends PdButton {
     }
 
     showDropdown() {
-        this.dropdown.renderHTML(html`
+        this.editor.dropdown.renderHTML(html`
             <div class="flex flex-col min-w-[250px]">
                 <div class="flex flex-col p-2 border-b border-gray-100">
                     <button 
                         class=${classes.dropdown.item}
                         @click=${() => {
-                            this.editor.chain().focus().toggleHeaderRow().run()
+                            this.editor.tiptap.chain().focus().toggleHeaderRow().run()
                         }}
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-toggle-right"><rect width="20" height="12" x="2" y="6" rx="6" ry="6"/><circle cx="16" cy="12" r="2"/></svg>
@@ -90,7 +90,7 @@ export class PdButtonTable extends PdButton {
                     <button 
                         class=${classes.dropdown.item}
                         @click=${() => {
-                            this.editor.chain().focus().toggleHeaderCell().run()
+                            this.editor.tiptap.chain().focus().toggleHeaderCell().run()
                         }}
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-toggle-right"><rect width="20" height="12" x="2" y="6" rx="6" ry="6"/><circle cx="16" cy="12" r="2"/></svg>
@@ -101,7 +101,7 @@ export class PdButtonTable extends PdButton {
                     <button 
                         class=${classes.dropdown.item}
                         @click=${() => {
-                            this.editor.chain().focus().addRowBefore().run()
+                            this.editor.tiptap.chain().focus().addRowBefore().run()
                         }}
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
@@ -110,7 +110,7 @@ export class PdButtonTable extends PdButton {
                     <button 
                         class=${classes.dropdown.item}
                         @click=${() => {
-                            this.editor.chain().focus().addRowAfter().run()
+                            this.editor.tiptap.chain().focus().addRowAfter().run()
                         }}
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
@@ -119,7 +119,7 @@ export class PdButtonTable extends PdButton {
                     <button 
                         class=${classes.dropdown.item}
                         @click=${() => {
-                            this.editor.chain().focus().deleteRow().run()
+                            this.editor.tiptap.chain().focus().deleteRow().run()
                         }}
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
@@ -130,7 +130,7 @@ export class PdButtonTable extends PdButton {
                     <button 
                         class=${classes.dropdown.item}
                         @click=${() => {
-                            this.editor.chain().focus().addColumnBefore().run()
+                            this.editor.tiptap.chain().focus().addColumnBefore().run()
                         }}
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
@@ -139,7 +139,7 @@ export class PdButtonTable extends PdButton {
                     <button 
                         class=${classes.dropdown.item}
                         @click=${() => {
-                            this.editor.chain().focus().addColumnAfter().run()
+                            this.editor.tiptap.chain().focus().addColumnAfter().run()
                         }}
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
@@ -148,7 +148,7 @@ export class PdButtonTable extends PdButton {
                     <button 
                         class=${classes.dropdown.item}
                         @click=${() => {
-                            this.editor.chain().focus().deleteRow().run()
+                            this.editor.tiptap.chain().focus().deleteRow().run()
                         }}
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
@@ -158,6 +158,6 @@ export class PdButtonTable extends PdButton {
             </div>
         `)
 
-        this.dropdown.show(this.button)
+        this.editor.dropdown.show(this.button)
     }
 }

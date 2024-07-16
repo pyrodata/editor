@@ -12,10 +12,10 @@ export class PdButtonUnderline extends PdButton {
     }
 
     onClick(): void {
-        this.editor.chain().focus().toggleUnderline().run()
+        this.editor.tiptap.chain().focus().toggleUnderline().run()
     }
 
     isActive() {
-        return this.editor.isActive('underline')
+        return this.editor.tiptap.isActive('underline')
     }
 }

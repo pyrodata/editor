@@ -12,10 +12,10 @@ export class PdButtonOrderedList extends PdButton {
     }
 
     onClick(): void {
-        this.editor.chain().focus().toggleOrderedList().run()
+        this.editor.tiptap.chain().focus().toggleOrderedList().run()
     }
 
     isActive() {
-        return this.editor.isActive('orderedList')
+        return this.editor.tiptap.isActive('orderedList')
     }
 }

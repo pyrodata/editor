@@ -1,7 +1,6 @@
-import { Editor } from "@tiptap/core";
-import type { MenuItem, PdDropdown } from "./pd-dropdown";
+import type { MenuItem, } from "./pd-dropdown";
 import type { TemplateResult } from "lit";
-import { PdModal } from "./pd-modal";
+import type { PdEditor } from "./pd-editor";
 import { classes } from "../styling";
 
 export class PdButton extends HTMLElement {
@@ -34,7 +33,7 @@ export class PdButton extends HTMLElement {
             return
         }
         
-        this[this.getType() as 'modal' | 'dropdown'].toggle(this)
+        this.editor[this.getType() as 'modal' | 'dropdown'].toggle(this)
     }
     /**
      * Button type, `button`, `dropdown` or `modal`
@@ -60,15 +59,7 @@ export class PdButton extends HTMLElement {
         /**
          * Reference to TipTap editor
          */
-        protected editor: Editor,
-        /**
-         * Reference to dropdown element
-         */
-        protected dropdown: PdDropdown,
-        /**
-         * Reference to modal element
-         */
-        protected modal: PdModal
+        protected editor: PdEditor
     ) { super() }
     
     connectedCallback() {
@@ -82,8 +73,8 @@ export class PdButton extends HTMLElement {
         this.setAttribute('title', this.getTitle())
 
         this.insertAdjacentHTML('beforeend', this.getIcon())
-        this.editor.on('transaction', () => this.toggleActive())
-
+        this.editor.tiptap.on('transaction', () => this.toggleActive())
+        
         if (this.onClick) {
             this.addEventListener('click', this.onClick)
         }

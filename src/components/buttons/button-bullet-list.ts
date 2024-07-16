@@ -12,10 +12,10 @@ export class PdButtonBulletList extends PdButton {
     }
 
     onClick(): void {
-        this.editor.chain().focus().toggleBulletList().run()
+        this.editor.tiptap.chain().focus().toggleBulletList().run()
     }
 
     isActive() {
-        return this.editor.isActive('bulletList');
+        return this.editor.tiptap.isActive('bulletList');
     }
 }

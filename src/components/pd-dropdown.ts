@@ -89,7 +89,6 @@ export class PdDropdown extends HTMLElement {
     }
 
     onClickOutside(e: MouseEvent) {
-        //this.#reference?.contains((e.target as HTMLElement).shadowRoot)
         if (
             this.contains((e.target as HTMLElement)) 
             || this.#reference?.contains((e.target as HTMLElement))

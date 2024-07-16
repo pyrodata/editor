@@ -15,52 +15,18 @@ import { PdButtonBulletList } from './components/buttons/button-bullet-list'
 import { PdButtonCode } from './components/buttons/button-code'
 import { PdButtonCodeBlock } from './components/buttons/button-code-block'
 
-import { createEditor, defaultConfig } from './editor'
-import Link from '@tiptap/extension-link'
-import Table from '@tiptap/extension-table'
-import TableHeader from '@tiptap/extension-table-header'
-import TableRow from '@tiptap/extension-table-row'
-import TableCell from '@tiptap/extension-table-cell'
-import Underline from '@tiptap/extension-underline'
-import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import { createEditor } from './editor'
+import { buttons, classes } from './config'
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const reference = document.getElementById('editor') as HTMLDivElement
     const reference2 = document.getElementById('editor-2') as HTMLDivElement
 
-    defaultConfig.tiptap.content = 'TEST'
-
     const test = createEditor(reference, {
-        toolbar: {
-            buttons: {
-                heading: [
-                    PdButtonHeading
-                ],
-                format: [
-                    PdButtonBold,
-                    PdButtonItalic,
-                    PdButtonUnderline,
-                    PdButtonStrike,
-                    PdButtonCode,
-                ],
-                lists: [
-                    PdButtonOrderedList,
-                    PdButtonBulletList
-                ],
-                table: [
-                    PdButtonTable
-                ],
-                blocks: [
-                    PdButtonLink,
-                    PdButtonImage,
-                    PdButtonCodeBlock,
-                ]
-            }
-        },
         tiptap: {
-            content: `
-                <p>Hello World!</p>
-            `
+            content: 'Hi'
         }
     })
+
+    console.log(test)
 })
