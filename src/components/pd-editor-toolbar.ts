@@ -1,6 +1,7 @@
 import { PdButton } from "./pd-button";
 import { classNames, createElement, registerElement } from "../utils";
 import type { PdEditor } from "./pd-editor";
+import { PdButtonMarkdown } from "./buttons/pd-markdown";
 
 export type ButtonGroup = {
     [key: string]: {
@@ -19,9 +20,14 @@ export class PdEditorToolbar extends HTMLElement {
     connectedCallback() {
         this.setAttribute('class', this.editor.config.classes.toolbar!)
 
+        /**
+         * Add all the buttons that are registered within the editor
+         */
         for (const name in this.editor.config.toolbar.buttons) {
             this.registerGroup(name, this.editor.config.toolbar.buttons[name])
         }
+
+        this.registerGroup('md', [PdButtonMarkdown])
     }
 
     /**
@@ -77,7 +83,7 @@ export class PdEditorToolbar extends HTMLElement {
                 'flex me-[1rem] relative',
                 'after:content-[\' \'] after:h-[1.2rem] after:w-[1px] after:bg-gray-100',
                 'after:absolute after:top-1/2 after:-right-[.54rem] after:-translate-y-1/2',
-                'last:after:hidden'
+                'last:after:hidden last:me-0 last:ms-auto'
             ) 
         })
 
@@ -98,24 +104,9 @@ export class PdEditorToolbar extends HTMLElement {
      * @param name 
      */
     unregisterGroup(name: string) {
-        delete this.groups[name]
         this.groups[name].el.remove()
-    }
+        this.groups[name].buttons.forEach(btn => btn.remove())
 
-    /**
-     * Rerenders the toolbar
-     * 
-     * @deprecated
-     */
-    rerender() {
-        this.replaceChildren()
-        
-        for (const [_, group] of Object.entries(this.groups)) {
-            group.buttons.forEach(button => {
-                group.el.append(button)
-            })
-
-            this.append(group.el)
-        }
+        delete this.groups[name]
     }
 }

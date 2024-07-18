@@ -20,6 +20,11 @@ export class PdButtonTable extends PdButton {
         document.body.appendChild(this.button)
     }
 
+    disconnectedCallback() {
+        this.button.removeEventListener('click', () => this.showDropdown())
+        this.editor.tiptap.off('transaction')
+    }
+
     getTitle() {
         return 'Insert table'
     }

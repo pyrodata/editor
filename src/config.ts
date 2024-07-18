@@ -90,7 +90,9 @@ export const classes: EditorClasses = {
         'block overflow-clip',
         'border-2 border-gray-100 rounded-lg *:outline-none',
         'has-[.ProseMirror-focused]:border-gray-300',
+        'has-[pre:focus]:border-gray-300',
         '[&>.ProseMirror]:px-4 [&>.ProseMirror]:py-4',
+        '[&>pre]:w-full [&>pre]:h-full [&>pre]:px-4 [&>pre]:py-4',
         'dark:border-woodsmoke-700',
         'dark:bg-woodsmoke-950'
     ),
