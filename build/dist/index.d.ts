@@ -126,12 +126,6 @@ declare class PdEditorToolbar extends HTMLElement {
 	 * @param name
 	 */
 	unregisterGroup(name: string): void;
-	/**
-	 * Rerenders the toolbar
-	 *
-	 * @deprecated
-	 */
-	rerender(): void;
 }
 declare class PdEditor extends HTMLElement {
 	readonly config: EditorConfig;

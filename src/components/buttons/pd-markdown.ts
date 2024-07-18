@@ -36,10 +36,12 @@ export class PdButtonMarkdown extends PdButton {
         super.connectedCallback()
 
         if (document.documentElement.classList.contains('light')) {
+            // @ts-ignore
             await import('highlight.js/styles/github.min.css');
         }
 
         if (document.documentElement.classList.contains('dark')) {
+            // @ts-ignore
             await import('highlight.js/styles/github-dark-dimmed.min.css');
         }
     }

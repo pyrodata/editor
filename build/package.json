@@ -2,7 +2,7 @@
     "name": "@pyrodata/editor",
     "repository": "https://github.com/pyrodata/editor",
     "homepage": "https://pyrodata.github.io/editor/",
-    "version": "1.0.0-beta.16",
+    "version": "1.0.0-beta.18",
     "author": {
         "email": "richard@codeit.ninja",
         "name": "Richard Mauritz",
@@ -47,6 +47,8 @@
         "@tailwindcss/typography": "^0.5.13",
         "@types/jsdom": "^21.1.7",
         "@types/node": "^20.14.10",
+        "@types/showdown": "^2.0.6",
+        "@types/turndown": "^5.0.4",
         "autoprefixer": "^10.4.19",
         "copyfiles": "^2.4.1",
         "dts-bundle-generator": "^9.5.1",
@@ -75,7 +77,11 @@
         "@tiptap/extension-underline": "^2.4.0",
         "@tiptap/pm": "^2.4.0",
         "@tiptap/starter-kit": "^2.4.0",
+        "highlight.js": "^11.10.0",
         "lit": "^3.1.4",
-        "lowlight": "^3.1.0"
+        "lowlight": "^3.1.0",
+        "marked": "^13.0.2",
+        "showdown": "^2.1.0",
+        "turndown": "^7.2.0"
     }
 }
